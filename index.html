@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reversi-X</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+
+
+<body link=#F0F0F0 vlink=#F0F0F0 alink=#F0F0F0>
+    <h1><a href="index.html"><img src="images/reversi-x_logo_320x80.png" alt="Reversi-X"></a></h1>
+    <p><span id="turn">Black</span> - <span id="count_move">1</span> - <span id="score_black">2</span>:<span id="score_white">2</span> - <span id="count_game">0</span></p>
+    <div id="board"></div>
+    <button type="button" id="start_stop">start</button>
+    <button type="button" id="cancel">cancel</button>
+
+    <br>
+    <br>
+    <br>
+
+
+    <p>Select Mode</p>
+    <input type="radio" name="select_mode" value="Quester" checked>quester
+    <input type="radio" name="select_mode" value="Pioneer">pioneer
+
+    <br>
+    <br>
+    <br>
+
+
+    <div name="quest_menu">
+        <p>Select Quest</p>
+        continent map<br>
+        <select name="select_continent">
+            <option value="X">X</option>
+            <option value="Shape">Shape</option>
+            <option value="Topology">Topology</option>
+            <option value="Color">Color</option>
+            <option value="Element">Element</option>
+            <option value="Blackpole">Blackpole</option>
+            <option value="Whitepole">Whitepole</option>
+            <option value="Pioneer">Pioneer</option>
+        </select>
+        <div id="continent_map"></div>
+        <p></p>
+        <div id="continent_note"></div>
+
+        <p></p>
+        stone board<br>
+        <select name="select_board"></select>
+        <div id="stone_board"></div>
+        <p></p>
+        <div id="board_note"></div>
+    </div>
+
+
+    <div name="pioneer_menu">
+        <p>Pioneer's Board</p>
+
+        <div id="pioneers_board"></div>
+
+        <p></p>
+        <div id="selected_group">
+            <table align="center">
+                <tr>
+                    <td>
+                        selected
+                        <div id="selected_paint"></div>
+                    </td>
+                    <td>
+                        first<br>
+                        <input type="radio" name="first_player" value="black" checked>black
+                        <input type="radio" name="first_player" value="white">white
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p></p>
+        board
+        <div id="board_palette"></div>
+
+        <p></p>
+        <div id="pallet_group">
+            <table align="center">
+                <tr>
+                    <td>
+                        hole
+                        <div id="hole_palette"></div>
+                    </td>
+                    <td>
+                        disc
+                        <div id="disc_palette"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <br>
+        <br>
+        <br>
+
+    </div>
+
+
+    <p>Select Intelligence</p>
+    <div id="select_intelligence">
+        <table align="center">
+            <tr>
+                <td>
+                    black<br>
+                    <select name="select_black">
+                        <option value="human">human</option>
+                        <option value="x">x</option>
+                        <option value="random">random</option>
+                    </select>
+                    <div id="black_intelligence"></div>
+                </td>
+                <td>
+                    <p><br>vs</p>
+                </td>
+                <td>
+                    white<br>
+                    <select name="select_white">
+                        <option value="human">human</option>
+                        <option value="x" selected>x</option>
+                        <option value="random">random</option>
+                    </select>
+                    <div id="white_intelligence"></div>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+        <br>
+        <br>
+    </div>
+
+
+    <p>Source Code</p>
+    <a href=https://github.com/y-tetsu/reversi-x>GitHub y-tetsu/reversi-x</a>
+
+    <br>
+    <br>
+    <br>
+
+
+
+    <script src="src/conf/colorcode_conf.js"    type="module"></script>
+    <script src="src/conf/board_conf.js"        type="module"></script>
+    <script src="src/conf/continent_conf.js"    type="module"></script>
+    <script src="src/conf/intelligence_conf.js" type="module"></script>
+    <script src="src/system/ui.js"              type="module"></script>
+    <script src="src/system/game.js"            type="module"></script>
+    <script src="src/system/board.js"           type="module"></script>
+    <script src="src/system/move.js"            type="module"></script>
+    <script src="src/main.js"                   type="module"></script>
+
+</body>
+
+</html>
