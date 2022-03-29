@@ -20,7 +20,7 @@ select {
 div#board table {
     margin: 0 auto;
     background: #303030;
-    /*table-layout: fixed;*/
+    table-layout: fixed;
 }
 
 div#selected_and_first td {
@@ -31,10 +31,10 @@ div#board td {
     background: #000000;
     width: 3.0rem;
     /*max-width: 3.0rem;*/
-    /*min-width: 3.0rem;*/
+    min-width: 3.0rem;
     height: 3.0rem;
     /*max-height: 3.0rem;*/
-    /*min-height: 3.0rem;*/
+    min-height: 3.0rem;
     font-size: 2.6rem;
     font-family: monospace;
     border:2.3px solid #303030;
@@ -385,4 +385,41 @@ div#white_intelligence td {
 div#note {
     font-size: 1.2rem;
     color: #E0E0E0;
+}
+
+div#questers_memo_tbl table {
+    margin: 0 auto;
+    background: #303030;
+    border-collapse: collapse;
+}
+
+div#questers_memo_tbl th {
+    padding: 4px;
+}
+
+div#questers_memo_tbl td {
+    background: #303030;
+    font-size: 1.1rem;
+    border:1.8px solid #303030;
+    text-align: left;
+    padding: 4px;
+    word-break:break-all;
+}
+
+div#questers_memo_tbl .header {
+    color: #E0E0E0;
+    background: #C07730;
+    font-size: 1.2rem;
+    width: 270px;
+}
+
+div#questers_memo_tbl .content::before {
+    font-size: 2rem;
+}
+
+div#questers_memo_tbl .content {
+    color: #000000;
+    background: #EEE0C0;
+    text-align: center;
+    width: 550px;
 }

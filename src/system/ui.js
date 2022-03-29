@@ -371,6 +371,7 @@ function createDisplayTables() {
   createDisplayTable("selected_paint",      1,   1);  // selected paint ui
   createDisplayTable("black_intelligence",  8,   8);  // black intelligence ui
   createDisplayTable("white_intelligence",  8,   8);  // white intelligence ui
+  createDisplayTable("questers_memo_tbl",  18,   2);  // questers memo ui
 }
 
 
@@ -415,10 +416,14 @@ function onModeSelectionChanged(event) {
     // set display block for quest menu
     const quest_menu = document.getElementsByName('quest_menu')[0];
     quest_menu.style.display = "block";
+    // set display block for quest memo
+    const quest_memo = document.getElementsByName('questers_memo')[0];
+    quest_memo.style.display = "block";
     // set display none for pioneer menu
     const pioneer_menu = document.getElementsByName('pioneer_menu')[0];
     pioneer_menu.style.display = "none";
     initStoneBoard();
+    initQuestersMemo();
   }
   else if (modeName === MODE_PIONEER) {
     boardNamePre = boardName;
@@ -428,6 +433,9 @@ function onModeSelectionChanged(event) {
     // set display none for quest menu
     const questMenu = document.getElementsByName('quest_menu')[0];
     questMenu.style.display = "none";
+    // set display block for quest memo
+    const quest_memo = document.getElementsByName('questers_memo')[0];
+    quest_memo.style.display = "none";
     // set display block for pioneer menu
     const pioneerMenu = document.getElementsByName('pioneer_menu')[0];
     pioneerMenu.style.display = "block";
@@ -450,6 +458,7 @@ function onContinentSelectionChanged(event) {
   initContinentMap();
   updateSelectedBoard();
   initStoneBoard();
+  initQuestersMemo();
   selectBoard.value = boardName;
   setGameState(GAME_INIT);
   updateUi();
@@ -467,6 +476,7 @@ function onBoardSelectionChanged(event) {
   const selectBoard = document.getElementsByName('select_board')[0];
   boardName = selectBoard.value;
   initStoneBoard();
+  initQuestersMemo();
   setGameState(GAME_INIT);
   updateUi();
 }
@@ -560,9 +570,9 @@ export function initUi() {
 
   initContinentMap();
   initStoneBoard();
+  initQuestersMemo();
   initIntelligenceProfiles();
   initGame(turn);
-  initStoneBoard();
   initUiBoard();
 }
 
@@ -896,6 +906,44 @@ function initUiBoard() {
       }
     }
   }
+}
+
+
+function initQuestersMemo() {
+  const header = [
+    'No.', 'Name', 'Continent', 'First', 'Squares', 'Blanks',
+    'Random 10000 Matches', 'Best Match Winner', 'Best Match Score', "Best Match Record",
+    'Black Max Score', 'Black Max Record', 'White Max Score', 'White Max Record',
+    'Black Shortest Move Count', 'Black Shortest Record', 'White Shortest Move Count', 'White Shortest Record',
+  ];
+  for (let i=0; i<header.length; i++) {
+    const index = i * 2;
+    document.getElementById("questers_memo_tbl" + index).setAttribute("class", "header");
+    document.getElementById("questers_memo_tbl" + index).textContent = header[i];
+    document.getElementById("questers_memo_tbl" + (index + 1)).setAttribute("class", "content");
+  }
+  document.getElementById("questers_memo_tbl" +  1).textContent = boardConf[boardName].no;
+  document.getElementById("questers_memo_tbl" +  3).textContent = boardName;
+  document.getElementById("questers_memo_tbl" +  5).textContent = boardConf[boardName].continent;
+  let first = 'black';
+  if (boardConf[boardName].first !== 0) {
+    first = 'white';
+  }
+  document.getElementById("questers_memo_tbl" +  7).textContent = first;
+  document.getElementById("questers_memo_tbl" +  9).textContent = boardConf[boardName].squares;
+  document.getElementById("questers_memo_tbl" + 11).textContent = boardConf[boardName].blanks;
+  document.getElementById("questers_memo_tbl" + 13).textContent = boardConf[boardName].random_10000_matches;
+  document.getElementById("questers_memo_tbl" + 15).textContent = boardConf[boardName].best_match_winner;
+  document.getElementById("questers_memo_tbl" + 17).textContent = boardConf[boardName].best_match_score;
+  document.getElementById("questers_memo_tbl" + 19).textContent = boardConf[boardName].best_match_record;
+  document.getElementById("questers_memo_tbl" + 21).textContent = boardConf[boardName].black_max_score;
+  document.getElementById("questers_memo_tbl" + 23).textContent = boardConf[boardName].black_max_record;
+  document.getElementById("questers_memo_tbl" + 25).textContent = boardConf[boardName].white_max_score;
+  document.getElementById("questers_memo_tbl" + 27).textContent = boardConf[boardName].white_max_record;
+  document.getElementById("questers_memo_tbl" + 29).textContent = boardConf[boardName].black_shortest_move_count;
+  document.getElementById("questers_memo_tbl" + 31).textContent = boardConf[boardName].black_shortest_record;
+  document.getElementById("questers_memo_tbl" + 33).textContent = boardConf[boardName].white_shortest_move_count;
+  document.getElementById("questers_memo_tbl" + 35).textContent = boardConf[boardName].white_shortest_record;
 }
 
 
