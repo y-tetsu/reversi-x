@@ -29,6 +29,7 @@ import {
   getGameFinalized,
   setGameFinalized,
   getLastMove,
+  getLastTurn,
   getPreLastMove,
   initGame,
   reInitGame,
@@ -46,12 +47,13 @@ import {
   getBoardIndex,
   getFlippablesAtIndex,
 } from './board.js'
-import { UNKNOWN_MOVE, HUMAN } from './move.js'
+import { STOP_PLAY_RECORD, UNKNOWN_MOVE, HUMAN } from './move.js'
 import { getJestEnabled } from './jest.js'
 
 
-const UI_WAIT_TIME = 250;       // ms
-const UI_WAIT_TIME_LONG = 500;  // ms
+const UI_WAIT_TIME        = 250;  // ms
+const UI_WAIT_TIME_LONG   = 500;  // ms
+const UI_WAIT_PLAY_RECORD = 750;  // ms
 
 const MODE_QUESTER = 'Quester';
 const MODE_PIONEER = 'Pioneer';
@@ -68,6 +70,7 @@ const INTELLIGENCE_PROFILE_BACKGROUND_COLOR_CODE = 'a';
 const LAST_MOVE_COLOR_CODE                       = 'p';
 
 const TABLE_ADJUST_SIZE = 0.88;
+const COLS = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 
 let modeName      = MODE_QUESTER;
@@ -80,11 +83,14 @@ let humanMove  = UNKNOWN_MOVE;
 
 let selectedPaint = "";
 
+let playRecordMode = false;
+
 
 // create ui
 export function createUi() {
   createStartStopEvent();
   createCancelEvent();
+  createPlayRecordEvent();
   createClickableTables();
   createDisplayTables();
   createSelectMode();
@@ -105,6 +111,9 @@ function createStartStopEvent() {
 
 
 function onStartStopClicked(event) {
+  if (event !== 'start_play_record') {
+    playRecordMode = false;
+  }
   switch (getGameState()) {
     case GAME_INIT:
       setGameState(GAME_PLAY);
@@ -118,6 +127,9 @@ function onStartStopClicked(event) {
     case GAME_STOP:
       setGameState(GAME_PLAY);
       updateUi();
+      const countMove = getCountMove();
+      const record = document.getElementsByName('record')[0];
+      record.value = record.value.slice(0, (countMove - 1) * 2);
       playUiGame();
       break;
     case GAME_END:
@@ -141,8 +153,34 @@ function createCancelEvent() {
 
 function cancelButtonClicked(event) {
   alert('cancel')
+  playRecordMode = false;
   setGameState(GAME_INIT);
   updateUi();
+}
+
+
+// play record button
+function createPlayRecordEvent() {
+  const playRecord = document.getElementById('play_record');
+  playRecord.addEventListener('click', playRecordButtonClicked);
+
+  const record = document.getElementsByName('record')[0];
+  record.addEventListener('change', recordChanged);
+}
+
+
+function playRecordButtonClicked(event) {
+  playRecordMode = true;
+  setGameState(GAME_INIT);
+  updateUi();
+  setTimeout(() => onStartStopClicked('start_play_record'), UI_WAIT_PLAY_RECORD);
+}
+
+
+function recordChanged(event) {
+  if(getGameState() !== GAME_PLAY) {
+    document.getElementById('play_record').disabled = false;
+  }
 }
 
 
@@ -424,12 +462,14 @@ function onModeSelectionChanged(event) {
     pioneer_menu.style.display = "none";
     initStoneBoard();
     initQuestersMemo();
+    initRecord();
   }
   else if (modeName === MODE_PIONEER) {
     boardNamePre = boardName;
     boardName = continentConf[modeName].boards[0]
     selectBoard.value = boardName;
     updateUi();
+    initRecord();
     // set display none for quest menu
     const questMenu = document.getElementsByName('quest_menu')[0];
     questMenu.style.display = "none";
@@ -459,6 +499,7 @@ function onContinentSelectionChanged(event) {
   updateSelectedBoard();
   initStoneBoard();
   initQuestersMemo();
+  initRecord();
   selectBoard.value = boardName;
   setGameState(GAME_INIT);
   updateUi();
@@ -477,6 +518,7 @@ function onBoardSelectionChanged(event) {
   boardName = selectBoard.value;
   initStoneBoard();
   initQuestersMemo();
+  initRecord();
   setGameState(GAME_INIT);
   updateUi();
 }
@@ -571,6 +613,7 @@ export function initUi() {
   initContinentMap();
   initStoneBoard();
   initQuestersMemo();
+  initRecord();
   initIntelligenceProfiles();
   initGame(turn);
   initUiBoard();
@@ -949,6 +992,11 @@ function initQuestersMemo() {
 }
 
 
+function initRecord() {
+  document.getElementsByName("record")[0].value = "";
+}
+
+
 function setDiscPalette(id, color) {
   document.getElementById(id).style.color = color;
   document.getElementById(id).textContent = "d";
@@ -1035,19 +1083,21 @@ function updateSelectedBoard() {
 export function updateUi() {
   if (getJestEnabled() === false) {
     // controlle menu
-    const cancel    = document.getElementById('cancel');
-    const startStop = document.getElementById('start_stop');
-    const quester   = document.getElementsByName("select_mode")[0];
-    const pioneer   = document.getElementsByName("select_mode")[1];
-    const continent = document.getElementsByName("select_continent")[0];
-    const board     = document.getElementsByName("select_board")[0];
-    const black     = document.getElementsByName("select_black")[0];
-    const white     = document.getElementsByName("select_white")[0];
+    const cancel     = document.getElementById('cancel');
+    const playRecord = document.getElementById('play_record');
+    const startStop  = document.getElementById('start_stop');
+    const quester    = document.getElementsByName("select_mode")[0];
+    const pioneer    = document.getElementsByName("select_mode")[1];
+    const continent  = document.getElementsByName("select_continent")[0];
+    const board      = document.getElementsByName("select_board")[0];
+    const black      = document.getElementsByName("select_black")[0];
+    const white      = document.getElementsByName("select_white")[0];
 
     switch (getGameState()) {
       case GAME_INIT:
         startStop.textContent = START_BUTTON_TEXT_CONTENT;
         cancel.disabled       = true;
+        playRecord.disabled   = true;
         quester.disabled      = false;
         pioneer.disabled      = false;
         continent.disabled    = false;
@@ -1055,10 +1105,14 @@ export function updateUi() {
         black.disabled        = false;
         white.disabled        = false;
         initUiBoard();
+        if (playRecordMode !== true) {
+          initRecord();
+        }
         break;
       case GAME_PLAY:
         startStop.textContent = STOP_BUTTON_TEXT_CONTENT;
         cancel.disabled       = false;
+        playRecord.disabled   = true;
         quester.disabled      = true;
         pioneer.disabled      = true;
         continent.disabled    = true;
@@ -1075,6 +1129,9 @@ export function updateUi() {
         board.disabled        = true;
         black.disabled        = false;
         white.disabled        = false;
+        if (document.getElementsByName("record")[0].value.length > 0) {
+          playRecord.disabled = false;
+        }
         break;
       case GAME_END:
         startStop.textContent = START_BUTTON_TEXT_CONTENT;
@@ -1085,6 +1142,9 @@ export function updateUi() {
         board.disabled        = false;
         black.disabled        = false;
         white.disabled        = false;
+        if (document.getElementsByName("record")[0].value.length > 0) {
+          playRecord.disabled = false;
+        }
         break;
       default:
         // do nothing
@@ -1095,11 +1155,18 @@ export function updateUi() {
     document.getElementById("score_black").textContent = getScoreBlack();
     document.getElementById("score_white").textContent = getScoreWhite();
     document.getElementById("count_game").textContent  = getCountGame();
+
     const lastMove = getLastMove();
+    const preLastMove = getPreLastMove();
+    const lastTurn = getLastTurn();
     if (lastMove !== -1) {
       document.getElementById("board" + lastMove).style.backgroundColor = colorCodeConf[LAST_MOVE_COLOR_CODE];
+      if (getGameState() === GAME_PLAY && playRecordMode === false) {
+        if (lastTurn === BLACK || lastTurn === WHITE) {
+          document.getElementsByName("record")[0].value = document.getElementsByName("record")[0].value + getRecord(lastMove, lastTurn);
+        }
+      }
     }
-    const preLastMove = getPreLastMove();
     if (preLastMove !== -1) {
       const index = ((Math.floor(preLastMove / BOARD_TABLE_SIZE) - 1) * BOARD_SIZE) + ((preLastMove % 10) - 1);
       const colorCode = boardConf[boardName].color_code[index];
@@ -1115,10 +1182,56 @@ export function updateUi() {
 }
 
 
+function getRecord(move, turn) {
+  let record = "";
+  const x = (move % BOARD_TABLE_SIZE) - 1;
+  const y = Math.floor(move / BOARD_TABLE_SIZE);
+  record = COLS[x] + y;
+  if (turn === BLACK) {
+      return record.toUpperCase();
+  }
+  return record;
+}
+
+
+export function getRecordMove() {
+  const record = document.getElementsByName("record")[0].value;
+  const countMove = getCountMove() - 1;
+
+  const colIndex = countMove * 2;
+  if (colIndex >= record.length) {
+    return STOP_PLAY_RECORD;
+  }
+  const strCol = record.slice(colIndex, colIndex + 1).toLowerCase();
+  const col = COLS.indexOf(strCol) + 1;
+  if (col === -1) {
+    return STOP_PLAY_RECORD;
+  }
+
+  const rowIndex = colIndex + 1;
+  if (rowIndex >= record.length) {
+    return STOP_PLAY_RECORD;
+  }
+  const row = record.slice(rowIndex, rowIndex + 1);
+  if (isNaN(row) === true) {
+    return STOP_PLAY_RECORD;
+  }
+  return Number(row) * BOARD_TABLE_SIZE + Number(col);
+}
+
+
 export function playUiGame() {
   if (playGame() === true) {
     updateUi();
-    if (getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN) {
+    if (getPlayRecordMode() === true) {
+      if (getCountPass() === 0) {
+        setTimeout(() => playUiGame(), UI_WAIT_PLAY_RECORD);
+      }
+      else {
+        setTimeout(() => playUiGame());
+      }
+    }
+    else if (getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN) {
       if (getCountPass() === 0) {
         setTimeout(() => playUiGame(), UI_WAIT_TIME_LONG);
       }
@@ -1160,6 +1273,11 @@ export function getHumanMove() {
 
 export function getBoardName() {
   return boardName;
+}
+
+
+export function getPlayRecordMode() {
+  return playRecordMode;
 }
 
 

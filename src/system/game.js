@@ -1,6 +1,6 @@
-import { BLACK, WHITE, HOLE, BOARD_SIZE, HEADER_OFFSET, getLegalMoves, putDisc, flipDiscs } from './board.js';
-import { HUMAN, X, WAIT_HUMAN_MOVE, getMove } from './move.js';
-import { putDiscOnUiBoard, updateUi } from './ui.js';
+import { BLACK, WHITE, EMPTY, HOLE, BOARD_SIZE, HEADER_OFFSET, getLegalMoves, putDisc, flipDiscs } from './board.js';
+import { HUMAN, X, RECORD, WAIT_HUMAN_MOVE, STOP_PLAY_RECORD, getMove } from './move.js';
+import { putDiscOnUiBoard, updateUi, getPlayRecordMode } from './ui.js';
 
 
 export const GAME_INIT = 0;
@@ -25,6 +25,7 @@ let playerBlack = HUMAN;
 let playerWhite = X;
 
 let lastMove    = -1;
+let lastTurn    = -9;
 let preLastMove = -1;
 
 
@@ -44,6 +45,7 @@ export function reInitGame(turn) {
   scoreWhite    = 0;
   gameFinalized = false;
   lastMove      = -1;
+  lastTurn      = -9;
   preLastMove   = -1;
 }
 
@@ -65,15 +67,18 @@ export function playGame() {
   let legalMoves = getLegalMoves(gameTurn, gameBoard);
   if (legalMoves.length <= 0) {
     countPass++;
+    lastTurn = EMPTY;
     let preGameTurn = gameTurn;
     gameTurn = getOpponentColor(gameTurn);
     let nextLegalMoves = getLegalMoves(gameTurn, gameBoard);
     if (nextLegalMoves.length > 0) {
-      if (preGameTurn === BLACK && playerBlack === HUMAN) {
-        alert("Black Pass");
-      }
-      else if (preGameTurn === WHITE && playerWhite === HUMAN) {
-        alert("White Pass");
+      if (getPlayRecordMode() === false) {
+        if (preGameTurn === BLACK && playerBlack === HUMAN) {
+          alert("Black Pass");
+        }
+        else if (preGameTurn === WHITE && playerWhite === HUMAN) {
+          alert("White Pass");
+        }
       }
     }
     if (countPass === 2) {
@@ -87,10 +92,20 @@ export function playGame() {
       player = playerWhite;
     }
 
+    if (getPlayRecordMode() === true) {
+      player = RECORD;
+    }
+
     const move = getMove(gameTurn, gameBoard, player);
 
     if (move === WAIT_HUMAN_MOVE) {
       return false;
+    }
+
+    if (move === STOP_PLAY_RECORD) {
+      alert('Stop Play Record');
+      gameState = GAME_STOP;
+      return true;
     }
 
     actMove(gameTurn, gameBoard, move);
@@ -101,6 +116,7 @@ export function playGame() {
       if (gameTurn === WHITE) {
         gameTurn = "* White Foul *";
       }
+      alert(gameTurn);
       gameState = GAME_END;
     }
   }
@@ -170,6 +186,7 @@ export function actMove(turn, board, index) {
 
   preLastMove = lastMove;
   lastMove    = index;
+  lastTurn    = turn;
 
   countMove++;
 }
@@ -310,6 +327,11 @@ export function getGameFinalized() {
 
 export function getLastMove() {
   return lastMove;
+}
+
+
+export function getLastTurn() {
+  return lastTurn;
 }
 
 
