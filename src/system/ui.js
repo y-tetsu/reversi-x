@@ -590,6 +590,7 @@ function initContinentMap() {
   }
   // (Note)
   document.getElementById("continent_note").innerHTML = continentConf[continentName].note;
+  document.getElementById("continent_note").style.fontSize = "1rem";
 }
 
 
@@ -634,6 +635,7 @@ function initStoneBoard() {
 
   // (note)
   document.getElementById("board_note").innerHTML = boardConf[boardName].note;
+  document.getElementById("board_note").style.fontSize = "1rem";
 }
 
 
