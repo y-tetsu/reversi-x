@@ -51,9 +51,9 @@ import { STOP_PLAY_RECORD, UNKNOWN_MOVE, HUMAN } from './move.js'
 import { getJestEnabled } from './jest.js'
 
 
-const UI_WAIT_TIME        = 250;  // ms
-const UI_WAIT_TIME_LONG   = 500;  // ms
-const UI_WAIT_PLAY_RECORD = 750;  // ms
+const UI_WAIT_TIME             = 250;   // ms
+export const UI_WAIT_TIME_LONG = 1000;  // ms
+export const UI_WAIT_FLIP_DISC = 500;   // ms
 
 const MODE_QUESTER = 'Quester';
 const MODE_PIONEER = 'Pioneer';
@@ -118,7 +118,12 @@ function onStartStopClicked(event) {
     case GAME_INIT:
       setGameState(GAME_PLAY);
       updateUi();
-      playUiGame();
+      if (playRecordMode === false && ((getGameTurn() === BLACK && getPlayerBlack() !== HUMAN && getPlayerWhite() === HUMAN) || (getGameTurn() === WHITE && getPlayerBlack() === HUMAN && getPlayerWhite() !== HUMAN))) {
+        setTimeout(() => playUiGame(), UI_WAIT_TIME_LONG);
+      }
+      else {
+        playUiGame();
+      }
       break;
     case GAME_PLAY:
       setGameState(GAME_STOP);
@@ -173,7 +178,7 @@ function playRecordButtonClicked(event) {
   playRecordMode = true;
   setGameState(GAME_INIT);
   updateUi();
-  setTimeout(() => onStartStopClicked('start_play_record'), UI_WAIT_PLAY_RECORD);
+  setTimeout(() => onStartStopClicked('start_play_record'), UI_WAIT_TIME_LONG);
 }
 
 
@@ -1150,11 +1155,13 @@ export function updateUi() {
         // do nothing
         break;
     }
-    document.getElementById("turn").textContent        = getTurnString(getGameTurn());
-    document.getElementById("count_move").textContent  = getCountMove();
-    document.getElementById("score_black").textContent = getScoreBlack();
-    document.getElementById("score_white").textContent = getScoreWhite();
-    document.getElementById("count_game").textContent  = getCountGame();
+
+    if (getCountPass() === 0 && getGameState() === GAME_PLAY && (getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN || getPlayRecordMode() === true)) {
+      setTimeout(() => updateBoardInfo(), UI_WAIT_FLIP_DISC);
+    }
+    else {
+      updateBoardInfo();
+    }
 
     const lastMove = getLastMove();
     const preLastMove = getPreLastMove();
@@ -1174,11 +1181,22 @@ export function updateUi() {
     }
     if (getGameState() === GAME_END && getGameFinalized()) {
       setGameFinalized(false);
-      if (getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN) {
-        setTimeout(() => alert(getGameTurn()), UI_WAIT_TIME);
+      if (getPlayRecordMode() === false) {
+        if (getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN) {
+          setTimeout(() => alert(getGameTurn()), UI_WAIT_TIME);
+        }
       }
     }
   }
+}
+
+
+function updateBoardInfo() {
+  document.getElementById("turn").textContent        = getTurnString(getGameTurn());
+  document.getElementById("count_move").textContent  = getCountMove();
+  document.getElementById("score_black").textContent = getScoreBlack();
+  document.getElementById("score_white").textContent = getScoreWhite();
+  document.getElementById("count_game").textContent  = getCountGame();
 }
 
 
@@ -1223,21 +1241,8 @@ export function getRecordMove() {
 export function playUiGame() {
   if (playGame() === true) {
     updateUi();
-    if (getPlayRecordMode() === true) {
-      if (getCountPass() === 0) {
-        setTimeout(() => playUiGame(), UI_WAIT_PLAY_RECORD);
-      }
-      else {
-        setTimeout(() => playUiGame());
-      }
-    }
-    else if (getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN) {
-      if (getCountPass() === 0) {
-        setTimeout(() => playUiGame(), UI_WAIT_TIME_LONG);
-      }
-      else {
-        setTimeout(() => playUiGame());
-      }
+    if ((getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN) || getPlayRecordMode() === true) {
+      setTimeout(() => playUiGame(), UI_WAIT_TIME_LONG);
     }
     else {
       setTimeout(() => playUiGame());
