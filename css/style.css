@@ -48,7 +48,7 @@ div#board .black::before {
     content: "●";
 }
 
-div#board .blank::before {
+div#board .empty::before {
     content: "　";
 }
 
@@ -294,7 +294,7 @@ div#pioneers_board .black {
     color: "black";
 }
 
-div#pioneers_board .blank::before {
+div#pioneers_board .empty::before {
     content: "　";
 }
 
