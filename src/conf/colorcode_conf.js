@@ -26,8 +26,9 @@ export const colorCodeConf = {
     'n': "#909090",  // board stone frame
     'o': "#C0C0C0",  // hole-palette-foreground-color
     'p': "#9AD5B1",  // last move highlight
+    'q': "#81E2C7",  // another world's pen
     // hole-color
     'W': "#303030",  // hole
-    'X': "#000000",    // hole-black
-    'Y': "#FFFFFF",    // hole-white
+    'X': "#000000",  // hole-black
+    'Y': "#FFFFFF",  // hole-white
 }

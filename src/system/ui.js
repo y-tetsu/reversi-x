@@ -40,8 +40,8 @@ import {
   WHITE,
   EMPTY,
   HOLE,
-  BOARD_TABLE_SIZE,
-  BOARD_SIZE,
+  boardSize,
+  boardTableSize,
   HEADER_OFFSET,
   CHAOS_BOARD_NAME,
   initBoard,
@@ -70,14 +70,21 @@ const INTELLIGENCE_PROFILE_WHITE_COLOR_CODE      = 'f';
 const INTELLIGENCE_PROFILE_BACKGROUND_COLOR_CODE = 'a';
 const LAST_MOVE_COLOR_CODE                       = 'p';
 
-const TABLE_ADJUST_SIZE = 0.88;
-const COLS = ["a", "b", "c", "d", "e", "f", "g", "h"];
+const TABLE_ADJUST_SIZE = 0.90;
+const COLS = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+const ROWS = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+
+const CONTINENT_MAP_Y = 8;
+const CONTINENT_MAP_X = 15;
+
+const MAX_BYTE_SIZE = 4;
 
 
 let modeName      = MODE_QUESTER;
 let continentName = 'X';
 let boardName     = 'X';
 let boardNamePre  = 'X';
+let preBoardSize  = 8;
 
 let humanClick = false;
 let humanMove  = UNKNOWN_MOVE;
@@ -85,6 +92,8 @@ let humanMove  = UNKNOWN_MOVE;
 let selectedPaint = "";
 
 let playRecordMode = false;
+
+let squareSize = "";
 
 
 // create ui
@@ -100,6 +109,7 @@ export function createUi() {
   createSelectBlack();
   createSelectWhite();
   createSelectFirst();
+  createSelectBoardSize();
   createResetPioneersBoard();
   //createCodeCopyEvent();
 }
@@ -193,15 +203,21 @@ function recordChanged(event) {
 
 // clickable tables
 function createClickableTables() {
-  createClickableTable("board",          BOARD_TABLE_SIZE, BOARD_TABLE_SIZE);  // clickable board
-  createClickableTable("pioneers_board",       BOARD_SIZE,       BOARD_SIZE);  // clickable board palette
-  createClickableTable("board_palette",                 2,                8);  // clickable board palette
-  createClickableTable("hole_palette",                  1,                3);  // clickable hole palette
-  createClickableTable("disc_palette",                  1,                2);  // clickable disc palette
+  createClickableTable("board",          boardTableSize, boardTableSize);  // clickable board
+  createClickableTable("pioneers_board",      boardSize,      boardSize);  // clickable board palette
+  createClickableTable("board_palette",               2,              8);  // clickable board palette
+  createClickableTable("hole_palette",                1,              3);  // clickable hole palette
+  createClickableTable("disc_palette",                1,              2);  // clickable disc palette
 }
 
 
 function createClickableTable(name, y, x) {
+  // reset
+  let elem = document.getElementById(name);
+  for (let i=elem.childNodes.length-1; i>=0; i--) {
+    elem.removeChild(elem.childNodes[i]);
+  }
+  // create
   const table = document.createElement("table");
   document.getElementById(name).appendChild(table);
   for (let i = 0; i < y; i++) {
@@ -214,6 +230,14 @@ function createClickableTable(name, y, x) {
       td.setAttribute("id", name + (i * x + j));
     }
   }
+}
+
+// change board size
+function onBoardSizeChanged(event) {
+  createClickableTable("board",          boardTableSize, boardTableSize);  // clickable board
+  createClickableTable("pioneers_board",      boardSize,      boardSize);  // clickable board palette
+  createDisplayTable("stone_board",      boardTableSize, boardTableSize);  // stone board ui
+  initStoneBoard();
 }
 
 
@@ -331,6 +355,11 @@ function resetPioneersBoard(event) {
   selectFirst[0].checked = true;
   selectFirst[1].checked = false;
 
+  //  - size selection
+  const selectBoardSize = document.getElementsByName('board_size');
+  selectBoardSize[0].checked = true;
+  selectBoardSize[1].checked = false;
+
   // init record
   initRecord();
 
@@ -340,72 +369,60 @@ function resetPioneersBoard(event) {
 
 
 function removeDisc(index, color) {
-  let initBlack = boardConf[boardName].init_black;
-  let initWhite = boardConf[boardName].init_white;
-  let partIndex = 0;
-  if (index > 31) {
-    partIndex = 1;
-  }
-  let partInitBlack = initBlack[partIndex];
-  let partInitWhite = initWhite[partIndex];
-  let shift        = 31 - (index % 32);
-  let mask         = 1 << shift;
-  boardConf[boardName].init_black[partIndex] = partInitBlack & ~mask;
-  boardConf[boardName].init_white[partIndex] = partInitWhite & ~mask;
+  let initBlack     = boardConf[boardName].init_black;
+  let initWhite     = boardConf[boardName].init_white;
+  let part          = Math.floor(index / 32);
+  let partInitBlack = initBlack[part];
+  let partInitWhite = initWhite[part];
+  let shift         = 31 - (index % 32);
+  let mask          = 1 << shift;
+  boardConf[boardName].init_black[part] = partInitBlack & ~mask;
+  boardConf[boardName].init_white[part] = partInitWhite & ~mask;
 }
 
 
 function paintDisc(index, color) {
-  let initBlack = boardConf[boardName].init_black;
-  let initWhite = boardConf[boardName].init_white;
-  let partIndex = 0;
-  if (index > 31) {
-    partIndex = 1;
-  }
-  let partInitBlack = initBlack[partIndex];
-  let partInitWhite = initWhite[partIndex];
-  let shift        = 31 - (index % 32);
-  let mask         = 1 << shift;
+  let initBlack     = boardConf[boardName].init_black;
+  let initWhite     = boardConf[boardName].init_white;
+  let part          = Math.floor(index / 32);
+  let partInitBlack = initBlack[part];
+  let partInitWhite = initWhite[part];
+  let shift         = 31 - (index % 32);
+  let mask          = 1 << shift;
   if (color === 'black') {
-    boardConf[boardName].init_black[partIndex] = partInitBlack | mask;
-    boardConf[boardName].init_white[partIndex] = partInitWhite & ~mask;
+    boardConf[boardName].init_black[part] = partInitBlack | mask;
+    boardConf[boardName].init_white[part] = partInitWhite & ~mask;
   }
   else if (color === 'white') {
-    boardConf[boardName].init_black[partIndex] = partInitBlack & ~mask;
-    boardConf[boardName].init_white[partIndex] = partInitWhite | mask;
+    boardConf[boardName].init_black[part] = partInitBlack & ~mask;
+    boardConf[boardName].init_white[part] = partInitWhite | mask;
   }
 }
 
 
 function paintHole(index) {
-  let hole      = boardConf[boardName].hole;
-  let initBlack = boardConf[boardName].init_black;
-  let initWhite = boardConf[boardName].init_white;
-  let partIndex = 0;
-  if (index > 31) {
-    partIndex = 1;
-  }
-  let partHole      = hole[partIndex];
-  let partInitBlack = initBlack[partIndex];
-  let partInitWhite = initWhite[partIndex];
+  let hole          = boardConf[boardName].hole;
+  let initBlack     = boardConf[boardName].init_black;
+  let initWhite     = boardConf[boardName].init_white;
+  let part          = Math.floor(index / 32);
+  let partHole      = hole[part];
+  let partInitBlack = initBlack[part];
+  let partInitWhite = initWhite[part];
   let shift         = 31 - (index % 32);
   let mask          = 1 << shift;
-  boardConf[boardName].hole[partIndex]       = partHole | mask;
-  boardConf[boardName].init_black[partIndex] = partInitBlack & ~mask;
-  boardConf[boardName].init_white[partIndex] = partInitWhite & ~mask;
+  boardConf[boardName].hole[part]       = partHole | mask;
+  boardConf[boardName].init_black[part] = partInitBlack & ~mask;
+  boardConf[boardName].init_white[part] = partInitWhite & ~mask;
 }
 
 
 function removeHole(index) {
-  let hole = boardConf[boardName].hole;
-  let partIndex = 0;
-  if (index > 31) {
-    partIndex = 1;
-  }
-  let partHole     = hole[partIndex];
-  let shift        = 31 - (index % 32);
-  let mask         = 1 << shift;
-  boardConf[boardName].hole[partIndex] = partHole & ~mask;
+  let hole     = boardConf[boardName].hole;
+  let part     = Math.floor(index / 32);
+  let partHole = hole[part];
+  let shift    = 31 - (index % 32);
+  let mask     = 1 << shift;
+  boardConf[boardName].hole[part] = partHole & ~mask;
 }
 
 
@@ -451,16 +468,20 @@ function onUiDiscPaletteClicked(event) {
 
 
 function createDisplayTables() {
-  createDisplayTable("continent_map",       8,  15);  // continent map ui
-  createDisplayTable("stone_board",        10,  10);  // stone board ui
-  createDisplayTable("selected_paint",      1,   1);  // selected paint ui
-  createDisplayTable("black_intelligence",  8,   8);  // black intelligence ui
-  createDisplayTable("white_intelligence",  8,   8);  // white intelligence ui
-  createDisplayTable("questers_memo_tbl",  19,   2);  // questers memo ui
+  createDisplayTable("continent_map",            8,              15);  // continent map ui
+  createDisplayTable("stone_board", boardTableSize,  boardTableSize);  // stone board ui
+  createDisplayTable("selected_paint",           1,               1);  // selected paint ui
+  createDisplayTable("black_intelligence",       8,               8);  // black intelligence ui
+  createDisplayTable("white_intelligence",       8,               8);  // white intelligence ui
+  createDisplayTable("questers_memo_tbl",       19,               2);  // questers memo ui
 }
 
 
 function createDisplayTable(name, y, x) {
+  let elem = document.getElementById(name);
+  for (let i=elem.childNodes.length-1; i>=0; i--) {
+    elem.removeChild(elem.childNodes[i]);
+  }
   const table = document.createElement("table");
   document.getElementById(name).appendChild(table);
   for (let i = 0; i < y; i++) {
@@ -625,6 +646,49 @@ function onFirstSelectionChanged(event) {
 }
 
 
+// select board size
+function createSelectBoardSize() {
+  const selectElement = document.getElementsByName('board_size');
+  for (let i=0; i<selectElement.length; i++) {
+    selectElement[i].addEventListener('change', onBoardSizeSelectionChanged);
+  }
+}
+
+
+function onBoardSizeSelectionChanged(event) {
+  const selectBoardSize = document.getElementsByName('board_size');
+  let size = "8";
+  boardConf[boardName].negative   = 0x00000000;
+  boardConf[boardName].first      = 0x00000000;
+  boardConf[boardName].size       = 0x00000000;
+  boardConf[boardName].hole       = [0x00000000, 0x00000000];
+  boardConf[boardName].color_code = "0000000000000000000000000000000000000000000000000000000000000000";
+  boardConf[boardName].init_black = [0x00000008, 0x10000000];
+  boardConf[boardName].init_white = [0x00000010, 0x08000000];
+  boardConf[boardName].init_green = [0x00000000, 0x00000000];
+  boardConf[boardName].init_ash   = [0x00000000, 0x00000000];
+  for (let i=0; i<selectBoardSize.length; i++) {
+    if (selectBoardSize[i].checked) {
+      size = selectBoardSize[i].value;
+    }
+  }
+  if (size === "10") {
+    boardConf[boardName].negative   = 0x00000000;
+    boardConf[boardName].first      = 0x00000000;
+    boardConf[boardName].size       = 0x00000001;
+    boardConf[boardName].hole       = [0x00000000, 0x00000000, 0x00000000, 0x00000000];
+    boardConf[boardName].color_code = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+    boardConf[boardName].init_black = [0x00000000, 0x00040200, 0x00000000, 0x00000000];
+    boardConf[boardName].init_white = [0x00000000, 0x00080100, 0x00000000, 0x00000000];
+    boardConf[boardName].init_green = [0x00000000, 0x00000000, 0x00000000, 0x00000000];
+    boardConf[boardName].init_ash   = [0x00000000, 0x00000000, 0x00000000, 0x00000000];
+  }
+  setGameState(GAME_INIT);
+  updateUi();
+}
+
+
+
 // code copy
 //function createCodeCopyEvent() {
 //  const codeCopy = document.getElementById('code_copy');
@@ -671,9 +735,9 @@ export function initUi() {
 function initContinentMap() {
   // (Map)
   const colors = continentConf[continentName].colors;
-  for (let y = 0; y < 8; y++) {
-    for (let x = 0; x < 15; x++) {
-      let index = y * 15 + x
+  for (let y = 0; y < CONTINENT_MAP_Y; y++) {
+    for (let x = 0; x < CONTINENT_MAP_X; x++) {
+      let index = y * CONTINENT_MAP_X + x
       let color = colors.charAt(index);
       document.getElementById("continent_map" + index).style.backgroundColor = colorCodeConf[color];
     }
@@ -688,40 +752,41 @@ function initContinentMap() {
 function initStoneBoard() {
   // (shape)
   const hole = boardConf[boardName].hole
-  let mask = 1 << 31
-  for (let i = 0; i < 4; i++) {
-    for (let j = 0; j < 8; j++) {
-      drawStoneBoard(hole[0], j, i);
-      drawStoneBoard(hole[1], j, i+4);
+  for (let y = 0; y < boardSize; y++) {
+    for (let x = 0; x < boardSize; x++) {
+      const part = Math.floor((y * boardSize + x) / (MAX_BYTE_SIZE * 8));
+      drawStoneBoard(hole[part], x, y);
     }
   }
+
   // (frame)
-  for (let i = 0; i < 10; i++) {
-    let id_top    = "stone_board" + (i)
-    let id_bottom = "stone_board" + (i + 90)
-    let id_right  = "stone_board" + (i * 10)
-    let id_left   = "stone_board" + (i * 10 + 9)
+  for (let i = 0; i < boardTableSize; i++) {
+    let id_top    = "stone_board" + (i);
+    let id_bottom = "stone_board" + (i + ((boardSize + HEADER_OFFSET) * boardTableSize));
+    let id_right  = "stone_board" + (i * boardTableSize);
+    let id_left   = "stone_board" + (i * boardTableSize + boardTableSize - 1);
     document.getElementById(id_top).style.backgroundColor    = colorCodeConf[STONE_BOARD_FRAME_COLOR_CODE];
     document.getElementById(id_bottom).style.backgroundColor = colorCodeConf[STONE_BOARD_FRAME_COLOR_CODE];
     document.getElementById(id_right).style.backgroundColor  = colorCodeConf[STONE_BOARD_FRAME_COLOR_CODE];
     document.getElementById(id_left).style.backgroundColor   = colorCodeConf[STONE_BOARD_FRAME_COLOR_CODE];
   }
+
   // (decolate pattern)
-  document.getElementById("stone_board1").style.backgroundColor  = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board4").style.backgroundColor  = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board9").style.backgroundColor  = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board20").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board29").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board50").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board59").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board89").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board94").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
-  document.getElementById("stone_board98").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board1").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board4").style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board" + (boardTableSize - 1)).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board" + (boardTableSize * 2)).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board" + (boardTableSize * 3 - 1)).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board" + (boardTableSize * (boardSize / 2 + 1))).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board" + ((boardTableSize * (boardSize / 2 + 1) + boardTableSize - 1))).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board" + ((boardTableSize * boardSize) + boardTableSize - 1)).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board" + ((boardTableSize * (boardSize + 1)) + boardTableSize / 2 - 1)).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
+  document.getElementById("stone_board" + ((boardTableSize * (boardSize + 1)) + boardSize)).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];
 
   // (lacking)
-  document.getElementById("stone_board80").style.backgroundColor = colorCodeConf['W'];
-  document.getElementById("stone_board90").style.backgroundColor = colorCodeConf['W'];
-  document.getElementById("stone_board91").style.backgroundColor = colorCodeConf['W'];
+  document.getElementById("stone_board" + (boardSize * boardTableSize)).style.backgroundColor = colorCodeConf['W'];
+  document.getElementById("stone_board" + ((boardSize + 1) * boardTableSize)).style.backgroundColor = colorCodeConf['W'];
+  document.getElementById("stone_board" + ((boardSize + 1) * boardTableSize + 1)).style.backgroundColor = colorCodeConf['W'];
 
   // (note)
   document.getElementById("board_note").innerHTML = boardConf[boardName].note;
@@ -730,16 +795,12 @@ function initStoneBoard() {
 
 
 function drawStoneBoard(code, x, y) {
-  const x_size = 10;
   let mask = 1 << 31;
-  let shiftCount = y * 8 + x;
-  if (shiftCount >= 32) {
-    shiftCount -= 32;
-  }
+  let shiftCount = (y * boardSize + x) % 32;
   for (let i=0; i<shiftCount; i++) {
     mask >>>= 1;
   }
-  let id = "stone_board" + (y * x_size + x + 11)
+  let id = "stone_board" + ((y + HEADER_OFFSET) * boardTableSize + x + HEADER_OFFSET)
   if ((code & mask) !== 0) {
     document.getElementById(id).style.backgroundColor = colorCodeConf[STONE_BOARD_BACKGROUND_COLOR_CODE];  // stone board background
   }
@@ -828,13 +889,23 @@ function initUiBoard() {
   reInitGame(turn);
 
   // setup game board
-  initBoard(getGameBoard(), boardConf[boardName].hole, boardConf[boardName].init_black, boardConf[boardName].init_white);
+  let size = 8;
+  if (boardConf[boardName].size === 1) {
+    size = 10;
+  }
+  initBoard(getGameBoard(), size, boardConf[boardName].hole, boardConf[boardName].init_black, boardConf[boardName].init_white);
+
+  if (size !== preBoardSize) {
+    onBoardSizeChanged('force invoke');
+  }
+  preBoardSize = size;
+
   const board = getGameBoard();
 
   // setup all empty board
-  for (let y = 0; y < BOARD_TABLE_SIZE; y++) {
-    for (let x = 0; x < BOARD_TABLE_SIZE; x++) {
-      let index = (y * BOARD_TABLE_SIZE) + x;
+  for (let y = 0; y < boardTableSize; y++) {
+    for (let x = 0; x < boardTableSize; x++) {
+      let index = (y * boardTableSize) + x;
       document.getElementById("board" + index).setAttribute("class", "empty");
     }
   }
@@ -843,34 +914,32 @@ function initUiBoard() {
   if (modeName === MODE_PIONEER) {
     // coloring and put initial disc for pioneer's board
     const colorCode = boardConf[boardName].color_code;
-    for (let y = 0; y < BOARD_SIZE / 2; y++) {
-      for (let x = 0; x < BOARD_SIZE; x++) {
-        for (let h = 0; h < 2; h++) {
-          let colorIndex = y * 8 + x + (h * 32);
-          let color = colorCode.charAt(colorIndex);
-          const index = getBoardIndex(x, y, h);
-          if (board[index] === HOLE) {
-            switch (color) {
-              case 'X':       // hole-black
-              case 'Y':       // hole-white
-              case 'Z':       // hole-green
-                break;
-              default:
-                color = 'W';  // hole-default
-                break;
-            }
+    for (let y = 0; y < boardSize; y++) {
+      for (let x = 0; x < boardSize; x++) {
+        let colorIndex = y * boardSize + x;
+        let color = colorCode.charAt(colorIndex);
+        const index = getBoardIndex(x, y);
+        if (board[index] === HOLE) {
+          switch (color) {
+            case 'X':       // hole-black
+            case 'Y':       // hole-white
+            case 'Z':       // hole-green
+              break;
+            default:
+              color = 'W';  // hole-default
+              break;
           }
-          document.getElementById("pioneers_board" + colorIndex).style.backgroundColor = colorCodeConf[color];
-          // initial disc
-          if (board[index] === BLACK) {
-            setDiscPalette("pioneers_board" + colorIndex, 'black');
-          }
-          else if (board[index] === WHITE) {
-            setDiscPalette("pioneers_board" + colorIndex, 'white');
-          }
-          else if (board[index] === EMPTY) {
-            unSetDiscPalette("pioneers_board" + colorIndex);
-          }
+        }
+        document.getElementById("pioneers_board" + colorIndex).style.backgroundColor = colorCodeConf[color];
+        // initial disc
+        if (board[index] === BLACK) {
+          setDiscPalette("pioneers_board" + colorIndex, 'black');
+        }
+        else if (board[index] === WHITE) {
+          setDiscPalette("pioneers_board" + colorIndex, 'white');
+        }
+        else if (board[index] === EMPTY) {
+          unSetDiscPalette("pioneers_board" + colorIndex);
         }
       }
     }
@@ -905,68 +974,44 @@ function initUiBoard() {
   // setup ui board
 
   // --- initial discs ---
-  putInitialDiscOnUiBoard();
+  putInitialDiscsOnUiBoard();
 
   // --- adjust table size ---
-  const w = document.getElementById("board" + 11).getBoundingClientRect().width * TABLE_ADJUST_SIZE;
-  const h = document.getElementById("board" + 11).getBoundingClientRect().height * TABLE_ADJUST_SIZE;
-  let size = w;
+  const w = document.getElementById("board" + (boardTableSize + HEADER_OFFSET)).getBoundingClientRect().width * TABLE_ADJUST_SIZE;
+  const h = document.getElementById("board" + (boardTableSize + HEADER_OFFSET)).getBoundingClientRect().height * TABLE_ADJUST_SIZE;
+  size = w;
   if (h > w) {
     size = h;
   }
+  if (squareSize === "") {
+    squareSize = size;
+  }
 
-  for (let i=0; i<BOARD_TABLE_SIZE*BOARD_TABLE_SIZE; i++) {
-    document.getElementById("board" + i).style.width = size + 'px';
-    document.getElementById("board" + i).style.height = size + 'px';
+  for (let i=0; i<boardTableSize*boardTableSize; i++) {
+    document.getElementById("board" + i).style.width = squareSize + 'px';
+    document.getElementById("board" + i).style.height = squareSize + 'px';
   }
 
   // --- header ---
+  // ----- cols & rows
   document.getElementById("board" + 0).setAttribute("class", "none");
-  document.getElementById("board" + 1).setAttribute("class", "A");
-  document.getElementById("board" + 2).setAttribute("class", "B");
-  document.getElementById("board" + 3).setAttribute("class", "C");
-  document.getElementById("board" + 4).setAttribute("class", "D");
-  document.getElementById("board" + 5).setAttribute("class", "E");
-  document.getElementById("board" + 6).setAttribute("class", "F");
-  document.getElementById("board" + 7).setAttribute("class", "G");
-  document.getElementById("board" + 8).setAttribute("class", "H");
-  document.getElementById("board" + 9).setAttribute("class", "none");
-  document.getElementById("board" + 10).setAttribute("class", "one");
-  document.getElementById("board" + 19).setAttribute("class", "none");
-  document.getElementById("board" + 20).setAttribute("class", "two");
-  document.getElementById("board" + 29).setAttribute("class", "none");
-  document.getElementById("board" + 30).setAttribute("class", "three");
-  document.getElementById("board" + 39).setAttribute("class", "none");
-  document.getElementById("board" + 40).setAttribute("class", "four");
-  document.getElementById("board" + 49).setAttribute("class", "none");
-  document.getElementById("board" + 50).setAttribute("class", "five");
-  document.getElementById("board" + 59).setAttribute("class", "none");
-  document.getElementById("board" + 60).setAttribute("class", "six");
-  document.getElementById("board" + 69).setAttribute("class", "none");
-  document.getElementById("board" + 70).setAttribute("class", "seven");
-  document.getElementById("board" + 79).setAttribute("class", "none");
-  document.getElementById("board" + 80).setAttribute("class", "eight");
-  document.getElementById("board" + 89).setAttribute("class", "none");
-  document.getElementById("board" + 90).setAttribute("class", "none");
-  document.getElementById("board" + 91).setAttribute("class", "none");
-  document.getElementById("board" + 92).setAttribute("class", "none");
-  document.getElementById("board" + 93).setAttribute("class", "none");
-  document.getElementById("board" + 94).setAttribute("class", "none");
-  document.getElementById("board" + 95).setAttribute("class", "none");
-  document.getElementById("board" + 96).setAttribute("class", "none");
-  document.getElementById("board" + 97).setAttribute("class", "none");
-  document.getElementById("board" + 98).setAttribute("class", "none");
-  document.getElementById("board" + 99).setAttribute("class", "none");
+  document.getElementById("board" + ((boardSize + 1) * boardTableSize)).setAttribute("class", "none");
+  for (let i=0; i<boardSize; i++) {
+    document.getElementById("board" + (i + 1)).setAttribute("class", COLS[i].toUpperCase());
+    document.getElementById("board" + ((i + 1) * boardTableSize)).setAttribute("class", ROWS[i]);
+    document.getElementById("board" + (((i + 1) * boardTableSize) + boardSize + 1)).setAttribute("class", "none");
+    document.getElementById("board" + (((boardSize + 1) * boardTableSize) + 1 + i)).setAttribute("class", "none");
+  }
+  document.getElementById("board" + (boardSize + 1)).setAttribute("class", "none");
+  document.getElementById("board" + ((boardTableSize * boardTableSize) - 1)).setAttribute("class", "none");
 
   // --- hole ---
-  for (let y = 0; y < BOARD_SIZE / 2; y++) {
-    for (let x = 0; x < BOARD_SIZE; x++) {
-      for (let h = 0; h < 2; h++) {
-        const index = getBoardIndex(x, y, h);
-        if (board[index] === HOLE) {
-          document.getElementById("board" + index).setAttribute("class", "hole");
-          document.getElementById("board" + index).style.backgroundColor = colorCodeConf['W'];
-        }
+  for (let y = 0; y < boardSize; y++) {
+    for (let x = 0; x < boardSize; x++) {
+      const index = getBoardIndex(x, y);
+      if (board[index] === HOLE) {
+        document.getElementById("board" + index).setAttribute("class", "hole");
+        document.getElementById("board" + index).style.backgroundColor = colorCodeConf['W'];
       }
     }
   }
@@ -974,31 +1019,29 @@ function initUiBoard() {
   // --- coloring ---
   if (boardName === CHAOS_BOARD_NAME) {
     let random_color = "";
-    for (let i=0; i<BOARD_SIZE*BOARD_SIZE; i++) {
+    for (let i=0; i<boardSize*boardSize; i++) {
       random_color += (Math.floor(Math.random() * (14)).toString(16))
     }
     boardConf[boardName].color_code = random_color;
   }
   const colorCode = boardConf[boardName].color_code
-  for (let y = 0; y < BOARD_SIZE / 2; y++) {
-    for (let x = 0; x < BOARD_SIZE; x++) {
-      for (let h = 0; h < 2; h++) {
-        let colorIndex = y * 8 + x + (h * 32);
-        let color = colorCode.charAt(colorIndex);
-        const index = getBoardIndex(x, y, h);
-        if (board[index] === HOLE) {
-          switch (color) {
-            case 'X':       // hole-black
-            case 'Y':       // hole-white
-            case 'Z':       // hole-green
-              break;
-            default:
-              color = 'W';  // hole-default
-              break;
-          }
+  for (let y = 0; y < boardSize; y++) {
+    for (let x = 0; x < boardSize; x++) {
+      let colorIndex = y * boardSize + x;
+      let color = colorCode.charAt(colorIndex);
+      const index = getBoardIndex(x, y);
+      if (board[index] === HOLE) {
+        switch (color) {
+          case 'X':       // hole-black
+          case 'Y':       // hole-white
+          case 'Z':       // hole-green
+            break;
+          default:
+            color = 'W';  // hole-default
+            break;
         }
-        document.getElementById("board" + index).style.backgroundColor = colorCodeConf[color];
       }
+      document.getElementById("board" + index).style.backgroundColor = colorCodeConf[color];
     }
   }
 }
@@ -1059,28 +1102,33 @@ function unSetDiscPalette(id) {
 }
 
 
-function putInitialDiscOnUiBoard() {
+function putInitialDiscsOnUiBoard() {
   const initBlacks = boardConf[boardName].init_black;
   const initWhites = boardConf[boardName].init_white;
-  let mask = 1 << 31
+  let mask = 1 << 31;
   let scoreB = 0;
   let scoreW = 0;
-  for (let y = 0; y < 4; y++) {
-    for (let x = 0; x < 8; x++) {
-      let indexH = 11 + (y * 10) + x;
-      let indexL = 51 + (y * 10) + x;
-      putInitialDiscOnUiBoardHalf(indexH, mask, initBlacks[0], initWhites[0]);
-      putInitialDiscOnUiBoardHalf(indexL, mask, initBlacks[1], initWhites[1]);
-      if ((mask & initBlacks[0]) !== 0) {
+  let prePart = 0;
+  for (let y = 0; y < boardSize; y++) {
+    for (let x = 0; x < boardSize; x++) {
+      // part
+      const part = Math.floor((y * boardSize + x) / (MAX_BYTE_SIZE * 8));
+      if (prePart !== part) {
+        mask = 1 << 31;
+      }
+      prePart = part;
+
+      // offset
+      let offset = (boardTableSize * HEADER_OFFSET) + HEADER_OFFSET;
+
+      // index
+      let index = offset + (y * boardTableSize) + x;
+      putInitialDiscOnUiBoard(index, mask, initBlacks[part], initWhites[part]);
+
+      if ((mask & initBlacks[part]) !== 0) {
         scoreB++;
       }
-      if ((mask & initBlacks[1]) !== 0) {
-        scoreB++;
-      }
-      if ((mask & initWhites[0]) !== 0) {
-        scoreW++;
-      }
-      if ((mask & initWhites[1]) !== 0) {
+      if ((mask & initWhites[part]) !== 0) {
         scoreW++;
       }
       mask >>>= 1;
@@ -1091,7 +1139,7 @@ function putInitialDiscOnUiBoard() {
 }
 
 
-function putInitialDiscOnUiBoardHalf(index, mask, initBlack, initWhite) {
+function putInitialDiscOnUiBoard(index, mask, initBlack, initWhite) {
   let andBlack = mask & initBlack;
   let andWhite = mask & initWhite;
   if (andBlack !== 0) {
@@ -1226,7 +1274,7 @@ export function updateUi() {
       }
     }
     if (preLastMove !== -1) {
-      const index = ((Math.floor(preLastMove / BOARD_TABLE_SIZE) - 1) * BOARD_SIZE) + ((preLastMove % 10) - 1);
+      const index = ((Math.floor(preLastMove / boardTableSize) - 1) * boardSize) + ((preLastMove % boardTableSize) - 1);
       const colorCode = boardConf[boardName].color_code[index];
       document.getElementById("board" + preLastMove).style.backgroundColor = colorCodeConf[colorCode];
     }
@@ -1253,17 +1301,22 @@ function updateBoardInfo() {
 
 function getRecord(move, turn) {
   let record = "";
-  const x = (move % BOARD_TABLE_SIZE) - 1;
-  const y = Math.floor(move / BOARD_TABLE_SIZE);
-  record = COLS[x] + y;
-  if (turn === BLACK) {
-      return record.toUpperCase();
+  const x = (move % boardTableSize) - 1;
+  const y = Math.floor(move / boardTableSize);
+  let row = y;
+  if (row === 10) {
+    row = "x";
   }
+  let col = COLS[x];
+  if (turn === BLACK) {
+    col = col.toUpperCase();
+  }
+  record = col + row;
   return record;
 }
 
 
-export function getRecordMove() {
+export function getMoveFromRecord() {
   const record = document.getElementsByName("record")[0].value;
   const countMove = getCountMove() - 1;
 
@@ -1281,11 +1334,14 @@ export function getRecordMove() {
   if (rowIndex >= record.length) {
     return STOP_PLAY_RECORD;
   }
-  const row = record.slice(rowIndex, rowIndex + 1);
+  let row = record.slice(rowIndex, rowIndex + 1).toLowerCase();
+  if (row === "x") {
+    row = 10;
+  }
   if (isNaN(row) === true) {
     return STOP_PLAY_RECORD;
   }
-  return Number(row) * BOARD_TABLE_SIZE + Number(col);
+  return Number(row) * boardTableSize + Number(col);
 }
 
 

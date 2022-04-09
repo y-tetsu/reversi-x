@@ -8,12 +8,10 @@ export const BLACK = 1;
 export const WHITE = -1;
 export const HOLE  = 2;
 
-export const BOARD_TABLE_SIZE = 10;
-export const BOARD_SIZE       =  8;
-export const HEADER_OFFSET    =  1;
+export const HEADER_OFFSET = 1;
 
-const DIRECTION            = [-11, -10, -9, -1, 1, 9, 10, 11];
 const ALL_DIRECTIONS_NUM   =  8;
+const DIRECTION_XY = [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]];
 
 const MAX_RANDOM_TOTAL_CNT = 10;  // max random hole is upto this value
 const MAX_RANDOM_COL_CNT   =  2;  // max random hole per columun upto this value
@@ -22,20 +20,53 @@ const RANDOM_HOLE_RATE     = 20;  // (%)
 const RANDOM_BOARD_NAME = "Random";
 export const CHAOS_BOARD_NAME = "Chaos";
 
+export let boardSize = 8;
+export let boardTableSize = getBoardTableSize(boardSize);
+export let partSize = getPartSize(boardSize);
 
-export function getBoardIndex(x, y, part) {
-  let xIndex = x + HEADER_OFFSET
-  let yIndex = (y + HEADER_OFFSET) * BOARD_TABLE_SIZE
-  let pIndex = part * (BOARD_TABLE_SIZE * (BOARD_SIZE / 2));
-  return xIndex + yIndex + pIndex
+let directions = getDirections(boardSize);
+
+
+function getBoardTableSize(size) {
+  return size + (HEADER_OFFSET * 2);
 }
 
 
-export function initBoard(board, hole, initBlack, initWhite) {
+function getPartSize(size) {
+  if (size === 8) {
+    return 2;
+  }
+  return 4;
+}
+
+
+function getDirections(size) {
+  let ret = [];
+  const tableSize = getBoardTableSize(size);
+  for (let i=0; i<ALL_DIRECTIONS_NUM; i++) {
+    ret.push((tableSize * DIRECTION_XY[i][1]) + DIRECTION_XY[i][0]);
+  }
+  return ret;
+}
+
+
+export function getBoardIndex(x, y) {
+  let xIndex = x + HEADER_OFFSET
+  let yIndex = (y + HEADER_OFFSET) * boardTableSize
+  return xIndex + yIndex;
+}
+
+
+export function initBoard(board, size, hole, initBlack, initWhite) {
+  boardSize = size;
+  boardTableSize = getBoardTableSize(boardSize);
+  partSize = getPartSize(boardSize);
+  directions = getDirections(boardSize);
+
   // initialyze
-  for (let y = 0; y < BOARD_TABLE_SIZE; y++) {
-    for (let x = 0; x < BOARD_TABLE_SIZE; x++) {
-      let index = (y * BOARD_TABLE_SIZE) + x;
+  for (let y = 0; y < boardTableSize; y++) {
+    for (let x = 0; x < boardTableSize; x++) {
+      let index = (y * boardTableSize) + x;
       board[index] = EMPTY;
     }
   }
@@ -53,11 +84,11 @@ export function initBoard(board, hole, initBlack, initWhite) {
   setupInitDisc(board, initBlack, initWhite);
 
   // set hedder part
-  for (let i = 0; i < BOARD_TABLE_SIZE; i++) {
-    board[i]                                               = HOLE;
-    board[i * BOARD_TABLE_SIZE + BOARD_TABLE_SIZE]         = HOLE;
-    board[i * BOARD_TABLE_SIZE + BOARD_TABLE_SIZE * 2 - 1] = HOLE;
-    board[BOARD_TABLE_SIZE * (BOARD_TABLE_SIZE) - i - 1]   = HOLE;
+  for (let i = 0; i < boardTableSize; i++) {
+    board[i]                                           = HOLE;
+    board[i * boardTableSize + boardTableSize]         = HOLE;
+    board[i * boardTableSize + boardTableSize * 2 - 1] = HOLE;
+    board[boardTableSize * (boardTableSize) - i - 1]   = HOLE;
   }
 
   // setup protection initial disc and around space
@@ -72,44 +103,64 @@ export function initBoard(board, hole, initBlack, initWhite) {
 
   let totalRandom = 0;
   let mask = 1 << 31
-  for (let y = 0; y < BOARD_SIZE / 2; y++) {
+  let prePart = 0;
+  for (let y = 0; y < boardSize; y++) {
     let countRandomCol = 0;
-    for (let x = 0; x < BOARD_SIZE; x++) {
-      for (let p = 0; p < 2; p++) {
-        let is_hole = 0;
-        if (getBoardName() === RANDOM_BOARD_NAME || getBoardName() === CHAOS_BOARD_NAME) {
-          if (totalRandom < MAX_RANDOM_TOTAL_CNT && countRandomCol < MAX_RANDOM_COL_CNT && (mask & initDisc[p]) === 0) {
-            let rand = Math.floor(Math.random() * 101);
-            if (rand > (100 - RANDOM_HOLE_RATE)) {
-              countRandomCol++;
-              totalRandom++;
-              is_hole = 1;
-            }
+    for (let x = 0; x < boardSize; x++) {
+      const part = Math.floor((y * boardSize + x) / 32);
+      if (prePart !== part) {
+        mask = 1 << 31;
+        prePart = part;
+      }
+
+      let isHole = 0;
+      if (getBoardName() === RANDOM_BOARD_NAME || getBoardName() === CHAOS_BOARD_NAME) {
+        if (totalRandom < MAX_RANDOM_TOTAL_CNT && countRandomCol < MAX_RANDOM_COL_CNT && (mask & initDisc[part]) === 0) {
+          let rand = Math.floor(Math.random() * 101);
+          if (rand > (100 - RANDOM_HOLE_RATE)) {
+            countRandomCol++;
+            totalRandom++;
+            isHole = 1;
           }
         }
-        else {
-          is_hole = (mask & hole[p]);
-        }
+      }
+      else {
+        isHole = (mask & hole[part]);
+      }
 
-        if (is_hole !== 0) {
-          const index = getBoardIndex(x, y, p);
-          board[index] = HOLE;
-        }
+      if (isHole !== 0) {
+        const index = getBoardIndex(x, y);
+        board[index] = HOLE;
       }
       mask >>>= 1;
     }
   }
+  // DEBUG -----------------
+  //let text = "";
+  //for (let y=0; y<boardTableSize; y++) {
+  //  for (let x=0; x<boardTableSize; x++) {
+  //    const index = y*boardTableSize + x;
+  //    text += board[index];
+  //  }
+  //  text += "\n";
+  //}
+  //alert(text);
+  // DEBUG -----------------
 }
 
 
 function setupInitDisc(board, initBlack, initWhite) {
   let mask = 1 << 31
-  for (let y = 0; y < BOARD_SIZE / 2; y++) {
-    for (let x = 0; x < BOARD_SIZE; x++) {
-      for (let p = 0; p < 2; p++) {
-        const index = getBoardIndex(x, y, p);
-        putInitDisc(board, index, mask, initBlack[p], initWhite[p]);
+  let prePart = 0;
+  for (let y = 0; y < boardSize; y++) {
+    for (let x = 0; x < boardSize; x++) {
+      const part = Math.floor((y * boardSize + x) / 32);
+      if (prePart !== part) {
+        mask = 1 << 31
+        prePart = part;
       }
+      const index = getBoardIndex(x, y);
+      putInitDisc(board, index, mask, initBlack[part], initWhite[part]);
       mask >>>= 1;
     }
   }
@@ -130,7 +181,7 @@ function putInitDisc(board, index, mask, black, white) {
 
 export function getLegalMoves(color, board) {
   let legalMoves = [];
-  for (let index = 11; index <= 88; index++) {
+  for (let index = (boardTableSize + HEADER_OFFSET); index <= (boardTableSize + HEADER_OFFSET) * boardSize; index++) {
     if (getFlippablesAtIndex(color, board, index).length > 0) {
       legalMoves.push(index);
     }
@@ -144,7 +195,7 @@ export function getFlippablesAtIndex(color, board, index) {
   if (board[index] !== EMPTY) return flippables;
   const opponentColor = getOpponentColor(color);
   for (let dir = 0; dir < ALL_DIRECTIONS_NUM; dir++) {
-    const d = DIRECTION[dir];
+    const d = directions[dir];
     let tmp = [];
     let next = index + d;
     while (board[next] === opponentColor) {

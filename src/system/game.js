@@ -1,4 +1,4 @@
-import { BLACK, WHITE, EMPTY, HOLE, BOARD_SIZE, HEADER_OFFSET, getLegalMoves, putDisc, flipDiscs } from './board.js';
+import { BLACK, WHITE, EMPTY, HOLE, boardSize, HEADER_OFFSET, getLegalMoves, putDisc, flipDiscs } from './board.js';
 import { HUMAN, X, RECORD, WAIT_HUMAN_MOVE, STOP_PLAY_RECORD, getMove } from './move.js';
 import { UI_WAIT_TIME_LONG, UI_WAIT_FLIP_DISC, putDiscOnUiBoard, updateUi, getPlayRecordMode } from './ui.js';
 
@@ -220,10 +220,10 @@ function getWinner(board) {
 
 
 export function getPerfectScore(board) {
-  let count = BOARD_SIZE * BOARD_SIZE;
-  for (let y = 0; y < BOARD_SIZE; y++) {
-    for (let x = 0; x < BOARD_SIZE; x++) {
-      let index = ((y + HEADER_OFFSET) * (BOARD_SIZE + (HEADER_OFFSET * 2))) + x + HEADER_OFFSET;
+  let count = boardSize * boardSize;
+  for (let y = 0; y < boardSize; y++) {
+    for (let x = 0; x < boardSize; x++) {
+      let index = ((y + HEADER_OFFSET) * (boardSize + (HEADER_OFFSET * 2))) + x + HEADER_OFFSET;
       if (board[index] === HOLE) {
         count--;
       }

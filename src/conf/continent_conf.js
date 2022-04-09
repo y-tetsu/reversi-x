@@ -97,6 +97,14 @@ export const continentConf = {
             'Universe',
         ],
     },
+    'Large': {
+        //               "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
+        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW5kkkk3kqfWWWWWWWkkkkkqk5WWWWWW5kkkklkkWWWWWc7ckkkklkk5WWWWcfck33kkkk5WWWWcfcW55W5555WWW",  // X
+        'note'  : "Large Boards were begining from here.",
+        boards: [
+            'Square-10',
+        ],
+    },
     'Pioneer': {
         //               "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
         'colors': "WWWWWWWWWWWW9ffWWW555W55559ffWWWW5kkkkkk9fWWWWWWWkklll9k5WWWWWW5kklllkkWWWWWc7ckkllkkk5WWWWcfckkkkkkk5WWWWcfcW55W5555WWW",  // X

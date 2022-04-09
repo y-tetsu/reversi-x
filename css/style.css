@@ -98,6 +98,16 @@ div#board .eight::before {
     font-size: 2rem;
 }
 
+div#board .nine::before {
+    content: "9";
+    font-size: 2rem;
+}
+
+div#board .ten::before {
+    content: "10";
+    font-size: 2rem;
+}
+
 div#board .A::before {
     content: "A";
     font-size: 2rem;
@@ -135,6 +145,16 @@ div#board .G::before {
 
 div#board .H::before {
     content: "H";
+    font-size: 2rem;
+}
+
+div#board .I::before {
+    content: "I";
+    font-size: 2rem;
+}
+
+div#board .J::before {
+    content: "J";
     font-size: 2rem;
 }
 
@@ -196,6 +216,16 @@ div#board .eight {
     background: #303030;
 }
 
+div#board .nine {
+    color: #E0E0E0;
+    background: #303030;
+}
+
+div#board .ten {
+    color: #E0E0E0;
+    background: #303030;
+}
+
 div#board .A {
     color: #E0E0E0;
     background: #303030;
@@ -232,6 +262,16 @@ div#board .G {
 }
 
 div#board .H {
+    color: #E0E0E0;
+    background: #303030;
+}
+
+div#board .I {
+    color: #E0E0E0;
+    background: #303030;
+}
+
+div#board .J {
     color: #E0E0E0;
     background: #303030;
 }

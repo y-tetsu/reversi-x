@@ -15,6 +15,8 @@ import {
   getGameState,
   setCountGame,
   getCountGame,
+  setPlayerBlack,
+  setPlayerWhite,
   setScoreBlack,
   getScoreBlack,
   setScoreWhite,
@@ -66,6 +68,8 @@ describe('actMove', () => {
     let board = iniBoard.slice(0, iniBoard.length);
     let move = 43
     setCountMove(0);
+    setPlayerBlack('test');
+    setPlayerWhite('test');
     setScoreBlack(2);
     setScoreWhite(2);
     expect(board[move]).toBe(EMPTY);
@@ -237,21 +241,6 @@ describe('playGame', () => {
     setScoreWhite(0);
     setGameBoard(perfectBoard.slice(0, perfectBoard.length));
 
-    // 1st pass
-    expect(playGame()).toBe(true);
-    expect(getGameState()).toBe(GAME_PLAY);
-    expect(getGameTurn()).toBe(WHITE);
-    expect(getCountPass()).toBe(1);
-    expect(getCountGame()).toBe(0);
-
-    // 2nd pass
-    expect(playGame()).toBe(true);
-    expect(getGameState()).toBe(GAME_END);
-    expect(getGameTurn()).toBe(BLACK);
-    expect(getCountPass()).toBe(2);
-    expect(getCountGame()).toBe(0);
-
-    // finalize
     expect(playGame()).toBe(false);
     expect(getGameState()).toBe(GAME_END);
     expect(getGameTurn()).toBe("Black Perfect Win!!!");

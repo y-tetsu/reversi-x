@@ -1,5 +1,5 @@
 import { getLegalMoves } from './board.js';
-import { getHumanClick, setHumanClickFalse, getHumanMove, getRecordMove } from './ui.js';
+import { getHumanClick, setHumanClickFalse, getHumanMove, getMoveFromRecord } from './ui.js';
 
 
 export const WAIT_HUMAN_MOVE = -1;
@@ -54,5 +54,5 @@ export function moveByRandom(color, board) {
 
 
 function moveByRecord(color, board) {
-  return getRecordMove();
+  return getMoveFromRecord();
 }
