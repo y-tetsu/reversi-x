@@ -331,6 +331,10 @@ function resetPioneersBoard(event) {
   selectFirst[0].checked = true;
   selectFirst[1].checked = false;
 
+  // init record
+  initRecord();
+
+  // update ui
   updateUi();
 }
 
