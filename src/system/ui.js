@@ -456,7 +456,7 @@ function createDisplayTables() {
   createDisplayTable("selected_paint",      1,   1);  // selected paint ui
   createDisplayTable("black_intelligence",  8,   8);  // black intelligence ui
   createDisplayTable("white_intelligence",  8,   8);  // white intelligence ui
-  createDisplayTable("questers_memo_tbl",  18,   2);  // questers memo ui
+  createDisplayTable("questers_memo_tbl",  19,   2);  // questers memo ui
 }
 
 
@@ -1006,7 +1006,7 @@ function initUiBoard() {
 
 function initQuestersMemo() {
   const header = [
-    'No.', 'Name', 'Continent', 'First', 'Squares', 'Blanks',
+    'No.', 'Name', 'Continent', 'Author', 'First', 'Squares', 'Blanks',
     'Random 10000 Matches', 'Best Match Winner', 'Best Match Score', "Best Match Record",
     'Black Max Score', 'Black Max Record', 'White Max Score', 'White Max Record',
     'Black Shortest Move Count', 'Black Shortest Record', 'White Shortest Move Count', 'White Shortest Record',
@@ -1020,25 +1020,26 @@ function initQuestersMemo() {
   document.getElementById("questers_memo_tbl" +  1).textContent = boardConf[boardName].no;
   document.getElementById("questers_memo_tbl" +  3).textContent = boardName;
   document.getElementById("questers_memo_tbl" +  5).textContent = boardConf[boardName].continent;
+  document.getElementById("questers_memo_tbl" +  7).textContent = boardConf[boardName].author;
   let first = 'black';
   if (boardConf[boardName].first !== 0) {
     first = 'white';
   }
-  document.getElementById("questers_memo_tbl" +  7).textContent = first;
-  document.getElementById("questers_memo_tbl" +  9).textContent = boardConf[boardName].squares;
-  document.getElementById("questers_memo_tbl" + 11).textContent = boardConf[boardName].blanks;
-  document.getElementById("questers_memo_tbl" + 13).textContent = boardConf[boardName].random_10000_matches;
-  document.getElementById("questers_memo_tbl" + 15).textContent = boardConf[boardName].best_match_winner;
-  document.getElementById("questers_memo_tbl" + 17).textContent = boardConf[boardName].best_match_score;
-  document.getElementById("questers_memo_tbl" + 19).textContent = boardConf[boardName].best_match_record;
-  document.getElementById("questers_memo_tbl" + 21).textContent = boardConf[boardName].black_max_score;
-  document.getElementById("questers_memo_tbl" + 23).textContent = boardConf[boardName].black_max_record;
-  document.getElementById("questers_memo_tbl" + 25).textContent = boardConf[boardName].white_max_score;
-  document.getElementById("questers_memo_tbl" + 27).textContent = boardConf[boardName].white_max_record;
-  document.getElementById("questers_memo_tbl" + 29).textContent = boardConf[boardName].black_shortest_move_count;
-  document.getElementById("questers_memo_tbl" + 31).textContent = boardConf[boardName].black_shortest_record;
-  document.getElementById("questers_memo_tbl" + 33).textContent = boardConf[boardName].white_shortest_move_count;
-  document.getElementById("questers_memo_tbl" + 35).textContent = boardConf[boardName].white_shortest_record;
+  document.getElementById("questers_memo_tbl" +  9).textContent = first;
+  document.getElementById("questers_memo_tbl" + 11).textContent = boardConf[boardName].squares;
+  document.getElementById("questers_memo_tbl" + 13).textContent = boardConf[boardName].blanks;
+  document.getElementById("questers_memo_tbl" + 15).textContent = boardConf[boardName].random_10000_matches;
+  document.getElementById("questers_memo_tbl" + 17).textContent = boardConf[boardName].best_match_winner;
+  document.getElementById("questers_memo_tbl" + 19).textContent = boardConf[boardName].best_match_score;
+  document.getElementById("questers_memo_tbl" + 21).textContent = boardConf[boardName].best_match_record;
+  document.getElementById("questers_memo_tbl" + 23).textContent = boardConf[boardName].black_max_score;
+  document.getElementById("questers_memo_tbl" + 25).textContent = boardConf[boardName].black_max_record;
+  document.getElementById("questers_memo_tbl" + 27).textContent = boardConf[boardName].white_max_score;
+  document.getElementById("questers_memo_tbl" + 29).textContent = boardConf[boardName].white_max_record;
+  document.getElementById("questers_memo_tbl" + 31).textContent = boardConf[boardName].black_shortest_move_count;
+  document.getElementById("questers_memo_tbl" + 33).textContent = boardConf[boardName].black_shortest_record;
+  document.getElementById("questers_memo_tbl" + 35).textContent = boardConf[boardName].white_shortest_move_count;
+  document.getElementById("questers_memo_tbl" + 37).textContent = boardConf[boardName].white_shortest_record;
 }
 
 

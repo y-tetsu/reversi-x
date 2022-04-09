@@ -2,6 +2,7 @@ export const boardConf = {
     "X": {
         "no"                       : 1,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Motif",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -33,6 +34,7 @@ export const boardConf = {
     "x": {
         "no"                       : 2,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Key",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -64,6 +66,7 @@ export const boardConf = {
     "Cross": {
         "no"                       : 3,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -95,6 +98,7 @@ export const boardConf = {
     "Plus": {
         "no"                       : 4,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -126,6 +130,7 @@ export const boardConf = {
     "Drone-8": {
         "no"                       : 5,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -157,6 +162,7 @@ export const boardConf = {
     "Drone-6": {
         "no"                       : 6,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -188,6 +194,7 @@ export const boardConf = {
     "Kazaguruma-8": {
         "no"                       : 7,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -219,6 +226,7 @@ export const boardConf = {
     "Kazaguruma-6": {
         "no"                       : 8,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -250,6 +258,7 @@ export const boardConf = {
     "Manji-8": {
         "no"                       : 9,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -281,6 +290,7 @@ export const boardConf = {
     "Manji-6": {
         "no"                       : 10,
         "continent"                : "X",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -312,6 +322,7 @@ export const boardConf = {
     "S": {
         "no"                       : 11,
         "continent"                : "Shape",
+        "author"                   : "?",
         "type"                     : "Motif",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -343,6 +354,7 @@ export const boardConf = {
     "Random": {
         "no"                       : 12,
         "continent"                : "Shape",
+        "author"                   : "?",
         "type"                     : "Key",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -374,6 +386,7 @@ export const boardConf = {
     "Square-8": {
         "no"                       : 13,
         "continent"                : "Shape",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -405,6 +418,7 @@ export const boardConf = {
     "Square-6": {
         "no"                       : 14,
         "continent"                : "Shape",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -436,6 +450,7 @@ export const boardConf = {
     "Square-4": {
         "no"                       : 15,
         "continent"                : "Shape",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -467,6 +482,7 @@ export const boardConf = {
     "Rectangle": {
         "no"                       : 16,
         "continent"                : "Shape",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -498,6 +514,7 @@ export const boardConf = {
     "Octagon": {
         "no"                       : 17,
         "continent"                : "Shape",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -529,6 +546,7 @@ export const boardConf = {
     "Diamond": {
         "no"                       : 18,
         "continent"                : "Shape",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -560,6 +578,7 @@ export const boardConf = {
     "T": {
         "no"                       : 51,
         "continent"                : "Topology",
+        "author"                   : "?",
         "type"                     : "Motif",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -591,6 +610,7 @@ export const boardConf = {
     "Torus": {
         "no"                       : 52,
         "continent"                : "Topology",
+        "author"                   : "?",
         "type"                     : "Key",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -622,6 +642,7 @@ export const boardConf = {
     "Two": {
         "no"                       : 53,
         "continent"                : "Topology",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -653,6 +674,7 @@ export const boardConf = {
     "Equal": {
         "no"                       : 54,
         "continent"                : "Topology",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -684,6 +706,7 @@ export const boardConf = {
     "Xhole": {
         "no"                       : 55,
         "continent"                : "Topology",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -715,6 +738,7 @@ export const boardConf = {
     "C": {
         "no"                       : 101,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Motif",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -746,6 +770,7 @@ export const boardConf = {
     "Rainbow": {
         "no"                       : 102,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Key",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -777,6 +802,7 @@ export const boardConf = {
     "Pylamid": {
         "no"                       : 103,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -808,6 +834,7 @@ export const boardConf = {
     "Heart": {
         "no"                       : 104,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -839,6 +866,7 @@ export const boardConf = {
     "Waffle": {
         "no"                       : 105,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -870,6 +898,7 @@ export const boardConf = {
     "Bonsai": {
         "no"                       : 106,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -901,6 +930,7 @@ export const boardConf = {
     "Satellite": {
         "no"                       : 107,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -932,6 +962,7 @@ export const boardConf = {
     "Peach": {
         "no"                       : 108,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -963,6 +994,7 @@ export const boardConf = {
     "Pumpkin": {
         "no"                       : 109,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -994,6 +1026,7 @@ export const boardConf = {
     "Scarab": {
         "no"                       : 110,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1025,6 +1058,7 @@ export const boardConf = {
     "Globe": {
         "no"                       : 111,
         "continent"                : "Color",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1056,6 +1090,7 @@ export const boardConf = {
     "E": {
         "no"                       : 201,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Motif",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1087,6 +1122,7 @@ export const boardConf = {
     "Ring": {
         "no"                       : 202,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1118,6 +1154,7 @@ export const boardConf = {
     "Inside": {
         "no"                       : 203,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1149,6 +1186,7 @@ export const boardConf = {
     "Outside": {
         "no"                       : 204,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1180,6 +1218,7 @@ export const boardConf = {
     "Skull": {
         "no"                       : 205,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1211,6 +1250,7 @@ export const boardConf = {
     "Hourglass": {
         "no"                       : 206,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1242,6 +1282,7 @@ export const boardConf = {
     "Treasure": {
         "no"                       : 207,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1273,6 +1314,7 @@ export const boardConf = {
     "Rosetta": {
         "no"                       : 292,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1304,6 +1346,7 @@ export const boardConf = {
     "Chaos": {
         "no"                       : 293,
         "continent"                : "Element",
+        "author"                   : "?",
         "type"                     : "Key",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1335,6 +1378,7 @@ export const boardConf = {
     "B": {
         "no"                       : 998,
         "continent"                : "Blackpole",
+        "author"                   : "?",
         "type"                     : "Motif",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1366,6 +1410,7 @@ export const boardConf = {
     "Blackhole": {
         "no"                       : 999,
         "continent"                : "Blackpole",
+        "author"                   : "?",
         "type"                     : "Key",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1397,6 +1442,7 @@ export const boardConf = {
     "W": {
         "no"                       : 1000,
         "continent"                : "Whitepole",
+        "author"                   : "?",
         "type"                     : "Motif",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000001,
@@ -1428,6 +1474,7 @@ export const boardConf = {
     "Whitehole": {
         "no"                       : 1001,
         "continent"                : "Whitepole",
+        "author"                   : "?",
         "type"                     : "Key",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000001,
@@ -1459,6 +1506,7 @@ export const boardConf = {
     "Reunion": {
         "no"                       : 1002,
         "continent"                : "Whitepole",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000001,
@@ -1490,6 +1538,7 @@ export const boardConf = {
     "Universe": {
         "no"                       : 1003,
         "continent"                : "Whitepole",
+        "author"                   : "?",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000001,
@@ -1521,6 +1570,7 @@ export const boardConf = {
     "Pioneer": {
         "no"                       : 10000,
         "continent"                : "Pioneer",
+        "author"                   : "?",
         "type"                     : "Pioneer",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1552,6 +1602,7 @@ export const boardConf = {
     "Chair": {
         "no"                       : 10001,
         "continent"                : "Pioneer",
+        "author"                   : "y-keita",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1583,6 +1634,7 @@ export const boardConf = {
     "Coffeecup": {
         "no"                       : 10002,
         "continent"                : "Pioneer",
+        "author"                   : "y-keita",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1614,6 +1666,7 @@ export const boardConf = {
     "House": {
         "no"                       : 10003,
         "continent"                : "Pioneer",
+        "author"                   : "y-keita",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1645,6 +1698,7 @@ export const boardConf = {
     "Alien": {
         "no"                       : 10004,
         "continent"                : "Pioneer",
+        "author"                   : "y-keita",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
@@ -1676,6 +1730,7 @@ export const boardConf = {
     "Cyborg": {
         "no"                       : 10005,
         "continent"                : "Pioneer",
+        "author"                   : "y-keita",
         "type"                     : "Normal",
         "negative"                 : 0x00000000,
         "first"                    : 0x00000000,
