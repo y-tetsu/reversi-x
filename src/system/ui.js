@@ -1202,7 +1202,7 @@ export function updateUi() {
         break;
     }
 
-    if (getCountPass() === 0 && getGameState() === GAME_PLAY && (getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN || getPlayRecordMode() === true)) {
+    if (getGameState() === GAME_PLAY && (getPlayerBlack() === HUMAN || getPlayerWhite() === HUMAN || getPlayRecordMode() === true)) {
       setTimeout(() => updateBoardInfo(), UI_WAIT_FLIP_DISC);
     }
     else {

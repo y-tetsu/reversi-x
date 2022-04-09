@@ -163,6 +163,7 @@ export function playGame() {
       }
       // check end
       else {
+        countMove--;
         updateUi();
         if (playerBlack === HUMAN || playerWhite === HUMAN || getPlayRecordMode() === true) {
           setTimeout(() => gameEnd(), UI_WAIT_TIME_LONG);
@@ -190,6 +191,7 @@ export function finalizeGame(board) {
     gameTurn = getWinner(board);
   }
   countGame++;
+  countMove = 'End';
   gameFinalized = true;
 }
 
