@@ -1,5 +1,5 @@
 # <img src="images/reversi-x_logo_320x80.png">
-Let's discover unknown reversi boards.
+**Reversi-X** is a reversi browser game. You can play reversi(othello) on various shapes of boards. There is also a mode where you can make your own board. The game is available on the following GitHub Pages, so please feel free to play!
 
 https://y-tetsu.github.io/reversi-x/
 
@@ -16,6 +16,6 @@ Play with the pioneer's board by freely drawing the shape and color of the board
 <img src="images/pioneer_mode_demo.png">
 
 ## About Intelligence
-Select "human" for human operation. In other cases, the computer operates.
+Select "human" for human operation. In other cases, the computer operates. You can play against the computer or your friends. You can also watch the computers play against each other.
 
 <img src="images/about_intelligence.png">
