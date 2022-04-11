@@ -27,19 +27,22 @@ let lastMove    = -1;
 let lastTurn    = -9;
 let preLastMove = -1;
 
+let scoreType = 0;
 
-export function initGame(turn) {
+
+export function initGame(score, turn) {
   countGame = 0;
-  reInitGame(turn);
+  reInitGame(score, turn);
 }
 
 
-export function reInitGame(turn) {
+export function reInitGame(score, turn) {
   gameState     = GAME_INIT;
   gameTurn      = turn;
   gameBoard     = [];
   countMove     = 1;
   countPass     = 0;
+  scoreType     = score;
   scoreBlack    = 0;
   scoreWhite    = 0;
   gameFinalized = false;
@@ -200,7 +203,7 @@ function getWinner(board) {
   let winner = 'Draw';
   let countPerfect = getPerfectScore(board);
   if (scoreBlack > scoreWhite) {
-    if (scoreBlack === countPerfect) {
+    if ((scoreType === 0 && scoreBlack === countPerfect) || (scoreType === 1 && scoreWhite === countPerfect)) {
       winner = 'Black Perfect Win!!!';
     }
     else {
@@ -208,7 +211,7 @@ function getWinner(board) {
     }
   }
   else if (scoreWhite > scoreBlack) {
-    if (scoreWhite === countPerfect) {
+    if ((scoreType === 0 && scoreWhite === countPerfect) || (scoreType === 1 && scoreBlack === countPerfect)) {
       winner = 'White Perfect Win!!!';
     }
     else {
@@ -228,6 +231,9 @@ export function getPerfectScore(board) {
         count--;
       }
     }
+  }
+  if (scoreType === 1) {
+    return -count;
   }
   return count;
 }
@@ -267,24 +273,46 @@ function flipDiscAnimation(discsFlipped, turn, index) {
 }
 
 
-function putScore(color) {
-  if (color === BLACK) {
-    scoreBlack++;
+export function putScore(color) {
+  if(scoreType === 0) {
+    if (color === BLACK) {
+      scoreBlack++;
+    }
+    else if (color === WHITE) {
+      scoreWhite++;
+    }
   }
-  else if (color === WHITE) {
-    scoreWhite++;
+  else {
+    if (color === BLACK) {
+      scoreBlack--;
+    }
+    else if (color === WHITE) {
+      scoreWhite--;
+    }
   }
 }
 
 
 function flipScore(color) {
-  if (color === BLACK) {
-    scoreBlack++;
-    scoreWhite--;
+  if(scoreType === 0) {
+    if (color === BLACK) {
+      scoreBlack++;
+      scoreWhite--;
+    }
+    else if (color === WHITE) {
+      scoreWhite++;
+      scoreBlack--;
+    }
   }
-  else if (color === WHITE) {
-    scoreWhite++;
-    scoreBlack--;
+  else {
+    if (color === BLACK) {
+      scoreBlack--;
+      scoreWhite++;
+    }
+    else if (color === WHITE) {
+      scoreWhite--;
+      scoreBlack++;
+    }
   }
 }
 

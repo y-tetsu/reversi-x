@@ -10,7 +10,7 @@
 
 <body link=#F0F0F0 vlink=#F0F0F0 alink=#F0F0F0>
     <h1><a href="index.html"><img src="images/reversi-x_logo_320x80.png" alt="Reversi-X"></a></h1>
-    <p><span id="turn">Black</span> - <span id="count_move">1</span> - <span id="score_black">2</span>:<span id="score_white">2</span> - <span id="count_game">0</span></p>
+    <p><span id="turn">Black</span> / <span id="count_move">1</span> / <span id="score_black">2</span> : <span id="score_white">2</span> / <span id="count_game">0</span></p>
     <div id="board"></div>
     <button type="button" id="start_stop">start</button>
     <button type="button" id="cancel">cancel</button>
@@ -41,6 +41,7 @@
             <option value="Element">Element</option>
             <option value="Blackpole">Blackpole</option>
             <option value="Whitepole">Whitepole</option>
+            <option value="Minus">Minus</option>
             <option value="Large">Large</option>
             <option value="Pioneer">Pioneer</option>
         </select>
@@ -63,12 +64,17 @@
         <div id="pioneers_board"></div>
 
         <p></p>
+        selected
+        <div id="selected_paint"></div>
+
+        <p></p>
         <div id="selected_group">
             <table align="center">
                 <tr>
                     <td>
-                        selected
-                        <div id="selected_paint"></div>
+                        score<br>
+                        <input type="radio" name="score_type" value="+" checked>+
+                        <input type="radio" name="score_type" value="-">-
                     </td>
                     <td>
                         first<br>

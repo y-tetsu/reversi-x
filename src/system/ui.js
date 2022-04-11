@@ -18,9 +18,7 @@ import {
   getCountGame,
   setCountPass,
   getCountPass,
-  setScoreBlack,
   getScoreBlack,
-  setScoreWhite,
   getScoreWhite,
   setPlayerBlack,
   getPlayerBlack,
@@ -34,6 +32,7 @@ import {
   initGame,
   reInitGame,
   playGame,
+  putScore,
 } from './game.js'
 import {
   BLACK,
@@ -108,6 +107,7 @@ export function createUi() {
   createSelectBoard();
   createSelectBlack();
   createSelectWhite();
+  createSelectScoreType();
   createSelectFirst();
   createSelectBoardSize();
   createResetPioneersBoard();
@@ -350,6 +350,11 @@ function resetPioneersBoard(event) {
   document.getElementById("selected_paint0").style.backgroundColor = colorCodeConf['0'];
   document.getElementById("selected_paint0").textContent = "";
   selectedPaint = '0';
+  //  - score type selection
+  const selectScoreType = document.getElementsByName('score_type');
+  selectScoreType[0].checked = true;
+  selectScoreType[1].checked = false;
+
   //  - first selection
   const selectFirst = document.getElementsByName('first_player');
   selectFirst[0].checked = true;
@@ -620,11 +625,37 @@ function onWhiteSelectionChanged(event) {
 }
 
 
+// select score type
+function createSelectScoreType() {
+  const selectElement = document.getElementsByName('score_type');
+  for (let i=0; i<selectElement.length; i++) {
+    selectElement[i].addEventListener('change', onScoreTypeSelectionChanged);
+  }
+}
+
+
+function onScoreTypeSelectionChanged(event) {
+  const selectScoreType = document.getElementsByName('score_type');
+  let scoreType = "+";
+  boardConf[boardName].score = 0x00000000;
+  for (let i=0; i<selectScoreType.length; i++) {
+    if (selectScoreType[i].checked) {
+      scoreType = selectScoreType[i].value;
+    }
+  }
+  if (scoreType === "-") {
+    boardConf[boardName].score = 0x00000001;
+  }
+  setGameState(GAME_INIT);
+  updateUi();
+}
+
+
 // select first
 function createSelectFirst() {
-  const selectMode = document.getElementsByName('first_player');
-  for (let i=0; i<selectMode.length; i++) {
-    selectMode[i].addEventListener('change', onFirstSelectionChanged);
+  const selectElement = document.getElementsByName('first_player');
+  for (let i=0; i<selectElement.length; i++) {
+    selectElement[i].addEventListener('change', onFirstSelectionChanged);
   }
 }
 
@@ -726,7 +757,7 @@ export function initUi() {
   initQuestersMemo();
   initRecord();
   initIntelligenceProfiles();
-  initGame(turn);
+  initGame(boardConf[boardName].score, turn);
   initUiBoard();
 }
 
@@ -886,7 +917,7 @@ function initUiBoard() {
   if (boardConf[boardName].first === 1) {
     turn = WHITE;
   }
-  reInitGame(turn);
+  reInitGame(boardConf[boardName].score, turn);
 
   // setup game board
   let size = 8;
@@ -1126,16 +1157,14 @@ function putInitialDiscsOnUiBoard() {
       putInitialDiscOnUiBoard(index, mask, initBlacks[part], initWhites[part]);
 
       if ((mask & initBlacks[part]) !== 0) {
-        scoreB++;
+        putScore(BLACK);
       }
       if ((mask & initWhites[part]) !== 0) {
-        scoreW++;
+        putScore(WHITE);
       }
       mask >>>= 1;
     }
   }
-  setScoreBlack(scoreB);
-  setScoreWhite(scoreW);
 }
 
 
@@ -1192,6 +1221,8 @@ export function updateUi() {
     const black      = document.getElementsByName("select_black")[0];
     const white      = document.getElementsByName("select_white")[0];
     const reset      = document.getElementById('pioneers_board_reset');
+
+    // TODO : pioneer's board management
 
     switch (getGameState()) {
       case GAME_INIT:
