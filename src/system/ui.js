@@ -1056,7 +1056,7 @@ function initUiBoard() {
   }
 
   // --- coloring ---
-  if (boardName === CHAOS_BOARD_NAME) {
+  if (getPlayRecordMode() === false && boardName === CHAOS_BOARD_NAME) {
     let random_color = "";
     for (let i=0; i<boardSize*boardSize; i++) {
       random_color += (Math.floor(Math.random() * (14)).toString(16))

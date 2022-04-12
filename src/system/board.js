@@ -1,5 +1,5 @@
 import { boardConf } from '../conf/board_conf.js'
-import { getBoardName } from './ui.js';
+import { getBoardName, getPlayRecordMode } from './ui.js';
 import { getOpponentColor } from './game.js';
 
 
@@ -25,6 +25,8 @@ export let boardTableSize = getBoardTableSize(boardSize);
 export let partSize = getPartSize(boardSize);
 
 let directions = getDirections(boardSize);
+
+let preRandomChaosBoard = [];
 
 
 function getBoardTableSize(size) {
@@ -72,7 +74,7 @@ export function initBoard(board, size, hole, initBlack, initWhite) {
   }
 
   // setup initial disc
-  if (getBoardName() === CHAOS_BOARD_NAME) {
+  if (getPlayRecordMode() === false && getBoardName() === CHAOS_BOARD_NAME) {
     let random_init_blacks = [[0x00000008, 0x10000000], [0x00000022, 0x44000000], [0x00224400, 0x00081000], [0x00081022, 0x44081000]];
     let random_init_whites = [[0x00000010, 0x08000000], [0x00000044, 0x22000000], [0x00442200, 0x00100800], [0x00100844, 0x22100800]];
     const index = Math.floor(Math.random() * (random_init_blacks.length));
@@ -114,7 +116,7 @@ export function initBoard(board, size, hole, initBlack, initWhite) {
       }
 
       let isHole = 0;
-      if (getBoardName() === RANDOM_BOARD_NAME || getBoardName() === CHAOS_BOARD_NAME) {
+      if (getPlayRecordMode() === false && (getBoardName() === RANDOM_BOARD_NAME || getBoardName() === CHAOS_BOARD_NAME)) {
         if (totalRandom < MAX_RANDOM_TOTAL_CNT && countRandomCol < MAX_RANDOM_COL_CNT && (mask & initDisc[part]) === 0) {
           let rand = Math.floor(Math.random() * 101);
           if (rand > (100 - RANDOM_HOLE_RATE)) {
@@ -133,6 +135,18 @@ export function initBoard(board, size, hole, initBlack, initWhite) {
         board[index] = HOLE;
       }
       mask >>>= 1;
+    }
+  }
+  if (getBoardName() === RANDOM_BOARD_NAME || getBoardName() === CHAOS_BOARD_NAME) {
+    if (getPlayRecordMode() === true) {
+      for (let i=0; i<preRandomChaosBoard.length; i++) {
+        board[i] = preRandomChaosBoard[i];
+      }
+    }
+    else {
+      for (let i=0; i<board.length; i++) {
+        preRandomChaosBoard[i] = board[i];
+      }
     }
   }
   // DEBUG -----------------
