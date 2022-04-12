@@ -269,6 +269,8 @@ function onUiBoardClicked(event) {
 
 
 function onUiPioneersBoardClicked(event) {
+  if (getGameState() === GAME_PLAY) return;
+  if (getGameState() === GAME_STOP) return;
   const index            = Number(this.getAttribute("id").replace("pioneers_board", ""));
   const paint_disc       = document.getElementById("selected_paint0").textContent;
   const paint_disc_color = document.getElementById("selected_paint0").style.color;
@@ -446,6 +448,8 @@ function getColorCode(index) {
 
 
 function onUiBoardPaletteClicked(event) {
+  if (getGameState() === GAME_PLAY) return;
+  if (getGameState() === GAME_STOP) return;
   const index = Number(this.getAttribute("id").replace("board_palette", ""));
   document.getElementById("selected_paint0").style.backgroundColor = colorCodeConf[index.toString(16)];
   document.getElementById("selected_paint0").textContent = "";
@@ -454,6 +458,8 @@ function onUiBoardPaletteClicked(event) {
 
 
 function onUiHolePaletteClicked(event) {
+  if (getGameState() === GAME_PLAY) return;
+  if (getGameState() === GAME_STOP) return;
   const index = Number(this.getAttribute("id").replace("hole_palette", ""));
   const holes = ['W', 'X', 'Y'];
   document.getElementById("selected_paint0").style.backgroundColor = colorCodeConf[holes[index]];
@@ -464,6 +470,8 @@ function onUiHolePaletteClicked(event) {
 
 
 function onUiDiscPaletteClicked(event) {
+  if (getGameState() === GAME_PLAY) return;
+  if (getGameState() === GAME_STOP) return;
   const index = Number(this.getAttribute("id").replace("disc_palette", ""));
   const discs = ['black', 'white'];
   document.getElementById("selected_paint0").style.backgroundColor = colorCodeConf['0'];
@@ -1221,6 +1229,9 @@ export function updateUi() {
     const black      = document.getElementsByName("select_black")[0];
     const white      = document.getElementsByName("select_white")[0];
     const reset      = document.getElementById('pioneers_board_reset');
+    const score      = document.getElementsByName('score_type');
+    const first      = document.getElementsByName('first_player');
+    const size       = document.getElementsByName('board_size');
 
     // TODO : pioneer's board management
 
@@ -1236,6 +1247,12 @@ export function updateUi() {
         black.disabled        = false;
         white.disabled        = false;
         reset.disabled        = false;
+        score[0].disabled     = false;
+        score[1].disabled     = false;
+        first[0].disabled     = false;
+        first[1].disabled     = false;
+        size[0].disabled      = false;
+        size[1].disabled      = false;
         initUiBoard();
         if (playRecordMode !== true) {
           initRecord();
@@ -1252,6 +1269,12 @@ export function updateUi() {
         black.disabled        = true;
         white.disabled        = true;
         reset.disabled        = true;
+        score[0].disabled     = true;
+        score[1].disabled     = true;
+        first[0].disabled     = true;
+        first[1].disabled     = true;
+        size[0].disabled      = true;
+        size[1].disabled      = true;
         break;
       case GAME_STOP:
         startStop.textContent = START_BUTTON_TEXT_CONTENT;
@@ -1263,6 +1286,12 @@ export function updateUi() {
         black.disabled        = false;
         white.disabled        = false;
         reset.disabled        = true;
+        score[0].disabled     = true;
+        score[1].disabled     = true;
+        first[0].disabled     = true;
+        first[1].disabled     = true;
+        size[0].disabled      = true;
+        size[1].disabled      = true;
         if (document.getElementsByName("record")[0].value.length > 0) {
           playRecord.disabled = false;
         }
@@ -1277,6 +1306,12 @@ export function updateUi() {
         black.disabled        = false;
         white.disabled        = false;
         reset.disabled        = false;
+        score[0].disabled     = false;
+        score[1].disabled     = false;
+        first[0].disabled     = false;
+        first[1].disabled     = false;
+        size[0].disabled      = false;
+        size[1].disabled      = false;
         if (document.getElementsByName("record")[0].value.length > 0) {
           playRecord.disabled = false;
         }
