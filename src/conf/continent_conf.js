@@ -97,11 +97,24 @@ export const continentConf = {
             'Universe',
         ],
     },
+    'Green': {
+        //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
+        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW533kllkqfWWWWWWW33kllq35WWWWWW5kkkklkkWWWWWccckkkklkk5WWWW7ffkkkllkk5WWWWcccW55W5555WWW",
+        'note'  : "Green was begining from here.",
+        boards: [
+            'G',
+            'Greenmatter-8',
+            'Greenmatter-6',
+            'Greenmatter-4',
+            'Greenhole',
+        ],
+    },
     'Minus': {
         //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
         'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW5kkkk3kqfWWWWWWWkllkkq35WWWWWW5kklllkkWWWWWc7ckklklk35WWWWcfckkkklk35WWWWcfcW55W5555WWW",
         'note'  : "Minus Score was begining from here.",
         boards: [
+            'M',
             'Minus-8',
             'Minus-6',
             'Minus-4',
@@ -109,15 +122,17 @@ export const continentConf = {
     },
     'Large': {
         //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
-        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW5kkkk3kqfWWWWWWWkkkkkqk5WWWWWW5kkkklkkWWWWWc7ckkkklkk5WWWWcfck33kkkk5WWWWcfcW55W5555WWW",
+        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW533kk3kqfWWWWWWWkkkkkqk5WWWWWW5kkkklkkWWWWWc7ckkkklkk5WWWWcfck33kkkk5WWWWcfcW55W5555WWW",
         'note'  : "Large Boards were begining from here.",
         boards: [
+            'L',
             'Square-10',
+            'Another',
         ],
     },
     'Pioneer': {
         //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
-        'colors': "WWWWWWWWWWWW9ffWWW555W55559ffWWWW5kkkkkk9fWWWWWWWkklll9k5WWWWWW5kklllkkWWWWWc7ckkllkkk5WWWWcfckkkkkkk5WWWWcfcW55W5555WWW",
+        'colors': "WWWWWWWWWWWWsffWWW555W5555sffWWWW5kkkkkksfWWWWWWWkklllsk5WWWWWW5kklllkkWWWWWc7ckkllkkk5WWWWcfckkkkkkk5WWWWcfcW55W5555WWW",
         'note'  : "Pioneer's Footprints.",
         boards: [
             'Pioneer',

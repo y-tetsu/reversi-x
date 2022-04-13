@@ -7,6 +7,9 @@ export const EMPTY = 0;
 export const BLACK = 1;
 export const WHITE = -1;
 export const HOLE  = 2;
+export const GREEN = 3;
+
+export const GREEN_ONLY = "green only";
 
 export const HEADER_OFFSET = 1;
 
@@ -59,7 +62,7 @@ export function getBoardIndex(x, y) {
 }
 
 
-export function initBoard(board, size, hole, initBlack, initWhite) {
+export function initBoard(board, size, hole, initBlack, initWhite, initGreen) {
   boardSize = size;
   boardTableSize = getBoardTableSize(boardSize);
   partSize = getPartSize(boardSize);
@@ -83,7 +86,7 @@ export function initBoard(board, size, hole, initBlack, initWhite) {
     boardConf[CHAOS_BOARD_NAME].init_black = initBlack;
     boardConf[CHAOS_BOARD_NAME].init_white = initWhite;
   }
-  setupInitDisc(board, initBlack, initWhite);
+  setupInitDisc(board, initBlack, initWhite, initGreen);
 
   // set hedder part
   for (let i = 0; i < boardTableSize; i++) {
@@ -94,13 +97,13 @@ export function initBoard(board, size, hole, initBlack, initWhite) {
   }
 
   // setup protection initial disc and around space
-  let initDisc = [
+  let protectInitDisc = [
     initBlack[0] | initWhite[0],
     initBlack[1] | initWhite[1],
   ];
   for (let p = 0; p < 2; p++) {
-    initDisc[p] |= (initDisc[p] >>> 1) | (initDisc[p] << 1);
-    initDisc[p] |= (initDisc[p] >>> 8) | (initDisc[p] << 8);
+    protectInitDisc[p] |= (protectInitDisc[p] >>> 1) | (protectInitDisc[p] << 1);
+    protectInitDisc[p] |= (protectInitDisc[p] >>> 8) | (protectInitDisc[p] << 8);
   }
 
   let totalRandom = 0;
@@ -117,7 +120,7 @@ export function initBoard(board, size, hole, initBlack, initWhite) {
 
       let isHole = 0;
       if (getPlayRecordMode() === false && (getBoardName() === RANDOM_BOARD_NAME || getBoardName() === CHAOS_BOARD_NAME)) {
-        if (totalRandom < MAX_RANDOM_TOTAL_CNT && countRandomCol < MAX_RANDOM_COL_CNT && (mask & initDisc[part]) === 0) {
+        if (totalRandom < MAX_RANDOM_TOTAL_CNT && countRandomCol < MAX_RANDOM_COL_CNT && (mask & protectInitDisc[part]) === 0) {
           let rand = Math.floor(Math.random() * 101);
           if (rand > (100 - RANDOM_HOLE_RATE)) {
             countRandomCol++;
@@ -163,7 +166,7 @@ export function initBoard(board, size, hole, initBlack, initWhite) {
 }
 
 
-function setupInitDisc(board, initBlack, initWhite) {
+function setupInitDisc(board, initBlack, initWhite, initGreen) {
   let mask = 1 << 31
   let prePart = 0;
   for (let y = 0; y < boardSize; y++) {
@@ -174,21 +177,25 @@ function setupInitDisc(board, initBlack, initWhite) {
         prePart = part;
       }
       const index = getBoardIndex(x, y);
-      putInitDisc(board, index, mask, initBlack[part], initWhite[part]);
+      putInitDisc(board, index, mask, initBlack[part], initWhite[part], initGreen[part]);
       mask >>>= 1;
     }
   }
 }
 
 
-function putInitDisc(board, index, mask, black, white) {
+function putInitDisc(board, index, mask, black, white, green) {
   let andBlack = mask & black;
   let andWhite = mask & white;
-  if ((andBlack !== 0) && (andWhite === 0)) {
+  let andGreen = mask & green;
+  if ((andBlack !== 0) && (andWhite === 0) && (andGreen === 0)) {
     board[index] = BLACK;
   }
-  else if ((andBlack === 0) && (andWhite !== 0)) {
+  else if ((andBlack === 0) && (andWhite !== 0) && (andGreen === 0)) {
     board[index] = WHITE;
+  }
+  else if ((andBlack === 0) && (andWhite === 0) && (andGreen !== 0)) {
+    board[index] = GREEN;
   }
 }
 
@@ -206,19 +213,53 @@ export function getLegalMoves(color, board) {
 
 export function getFlippablesAtIndex(color, board, index) {
   let flippables = [];
+  let greenOnly = false;
   if (board[index] !== EMPTY) return flippables;
   const opponentColor = getOpponentColor(color);
   for (let dir = 0; dir < ALL_DIRECTIONS_NUM; dir++) {
     const d = directions[dir];
     let tmp = [];
+    let g = [];
     let next = index + d;
-    while (board[next] === opponentColor) {
+    while (board[next] === opponentColor || board[next] === GREEN) {
       tmp.push(next);
+      if (board[next] === GREEN) {
+        g.push(next);
+      }
       next += d;
     }
+
     if (board[next] === color) {
-      flippables = flippables.concat(tmp);
+      let f = [];
+      for (let i=0; i<tmp.length; i++) {
+        if (g.includes(tmp[i]) === false) {
+          f.push(tmp[i]);
+        }
+      }
+      flippables = flippables.concat(f);
+      if (flippables.length === 0 && g.length > 0) {
+        greenOnly = true;
+      }
     }
+    else if (tmp.length > 1 && g.length > 0) {
+      let f = [];
+      const gLast = tmp.indexOf(g.pop());
+      if (gLast > 0) {
+        tmp = tmp.slice(0, gLast);
+        for (let i=0; i<tmp.length; i++) {
+          if (g.includes(tmp[i]) === false) {
+            f.push(tmp[i]);
+          }
+        }
+        flippables = flippables.concat(f);
+        if (flippables.length === 0) {
+          greenOnly = true;
+        }
+      }
+    }
+  }
+  if (greenOnly === true && flippables.length === 0) {
+    flippables.push(GREEN_ONLY);
   }
   return flippables;
 }
@@ -233,6 +274,7 @@ export function putDisc(color, board, index) {
 
 export function flipDiscs(color, board, index) {
   let flippables = getFlippablesAtIndex(color, board, index);
+  if (flippables[0] === GREEN_ONLY) return [];
   flippables.forEach( function(move) {
     board[move] = color;
   });

@@ -27,6 +27,8 @@ export const colorCodeConf = {
     'o': "#C0C0C0",  // hole-palette-foreground-color
     'p': "#9AD5B1",  // last move highlight
     'q': "#81E2C7",  // another world's pen
+    'r': "#A1B8E6",  // intelligence profile background
+    's': "#F9BADE",  // pioneer world's pen
     // hole-color
     'W': "#303030",  // hole
     'X': "#000000",  // hole-black

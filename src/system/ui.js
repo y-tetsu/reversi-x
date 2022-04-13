@@ -37,6 +37,7 @@ import {
 import {
   BLACK,
   WHITE,
+  GREEN,
   EMPTY,
   HOLE,
   boardSize,
@@ -207,7 +208,7 @@ function createClickableTables() {
   createClickableTable("pioneers_board",      boardSize,      boardSize);  // clickable board palette
   createClickableTable("board_palette",               2,              8);  // clickable board palette
   createClickableTable("hole_palette",                1,              3);  // clickable hole palette
-  createClickableTable("disc_palette",                1,              2);  // clickable disc palette
+  createClickableTable("disc_palette",                1,              3);  // clickable disc palette
 }
 
 
@@ -285,7 +286,7 @@ function onUiPioneersBoardClicked(event) {
     paintColorCode(index, selectedPaint);
   }
   //  - if disc palette selected
-  else if (selectedPaint === 'black' || selectedPaint === 'white') {
+  else if (selectedPaint === 'black' || selectedPaint === 'white' || selectedPaint === 'green') {
     let color = getColorCode(index);
     if (color !== 'W' && color !== 'X' && color !== 'Y') {
       if (this.textContent === "") {
@@ -378,31 +379,43 @@ function resetPioneersBoard(event) {
 function removeDisc(index, color) {
   let initBlack     = boardConf[boardName].init_black;
   let initWhite     = boardConf[boardName].init_white;
+  let initGreen     = boardConf[boardName].init_green;
   let part          = Math.floor(index / 32);
   let partInitBlack = initBlack[part];
   let partInitWhite = initWhite[part];
+  let partInitGreen = initGreen[part];
   let shift         = 31 - (index % 32);
   let mask          = 1 << shift;
   boardConf[boardName].init_black[part] = partInitBlack & ~mask;
   boardConf[boardName].init_white[part] = partInitWhite & ~mask;
+  boardConf[boardName].init_green[part] = partInitGreen & ~mask;
 }
 
 
 function paintDisc(index, color) {
   let initBlack     = boardConf[boardName].init_black;
   let initWhite     = boardConf[boardName].init_white;
+  let initGreen     = boardConf[boardName].init_green;
   let part          = Math.floor(index / 32);
   let partInitBlack = initBlack[part];
   let partInitWhite = initWhite[part];
+  let partInitGreen = initGreen[part];
   let shift         = 31 - (index % 32);
   let mask          = 1 << shift;
   if (color === 'black') {
     boardConf[boardName].init_black[part] = partInitBlack | mask;
     boardConf[boardName].init_white[part] = partInitWhite & ~mask;
+    boardConf[boardName].init_green[part] = partInitGreen & ~mask;
   }
   else if (color === 'white') {
     boardConf[boardName].init_black[part] = partInitBlack & ~mask;
     boardConf[boardName].init_white[part] = partInitWhite | mask;
+    boardConf[boardName].init_green[part] = partInitGreen & ~mask;
+  }
+  else if (color === 'green') {
+    boardConf[boardName].init_black[part] = partInitBlack & ~mask;
+    boardConf[boardName].init_white[part] = partInitWhite & ~mask;
+    boardConf[boardName].init_green[part] = partInitGreen | mask;
   }
 }
 
@@ -411,15 +424,18 @@ function paintHole(index) {
   let hole          = boardConf[boardName].hole;
   let initBlack     = boardConf[boardName].init_black;
   let initWhite     = boardConf[boardName].init_white;
+  let initGreen     = boardConf[boardName].init_green;
   let part          = Math.floor(index / 32);
   let partHole      = hole[part];
   let partInitBlack = initBlack[part];
   let partInitWhite = initWhite[part];
+  let partInitGreen = initGreen[part];
   let shift         = 31 - (index % 32);
   let mask          = 1 << shift;
   boardConf[boardName].hole[part]       = partHole | mask;
   boardConf[boardName].init_black[part] = partInitBlack & ~mask;
   boardConf[boardName].init_white[part] = partInitWhite & ~mask;
+  boardConf[boardName].init_green[part] = partInitGreen & ~mask;
 }
 
 
@@ -473,8 +489,11 @@ function onUiDiscPaletteClicked(event) {
   if (getGameState() === GAME_PLAY) return;
   if (getGameState() === GAME_STOP) return;
   const index = Number(this.getAttribute("id").replace("disc_palette", ""));
-  const discs = ['black', 'white'];
+  const discs = ['black', 'white', 'green'];
   document.getElementById("selected_paint0").style.backgroundColor = colorCodeConf['0'];
+  if (discs[index] === 'green') {
+    document.getElementById("selected_paint0").style.backgroundColor = colorCodeConf['W'];
+  }
   setDiscPalette("selected_paint0", discs[index]);
   selectedPaint = discs[index];
 }
@@ -932,7 +951,7 @@ function initUiBoard() {
   if (boardConf[boardName].size === 1) {
     size = 10;
   }
-  initBoard(getGameBoard(), size, boardConf[boardName].hole, boardConf[boardName].init_black, boardConf[boardName].init_white);
+  initBoard(getGameBoard(), size, boardConf[boardName].hole, boardConf[boardName].init_black, boardConf[boardName].init_white, boardConf[boardName].init_green);
 
   if (size !== preBoardSize) {
     onBoardSizeChanged('force invoke');
@@ -977,6 +996,9 @@ function initUiBoard() {
         else if (board[index] === WHITE) {
           setDiscPalette("pioneers_board" + colorIndex, 'white');
         }
+        else if (board[index] === GREEN) {
+          setDiscPalette("pioneers_board" + colorIndex, 'green');
+        }
         else if (board[index] === EMPTY) {
           unSetDiscPalette("pioneers_board" + colorIndex);
         }
@@ -1004,8 +1026,10 @@ function initUiBoard() {
     // disc palette
     document.getElementById("disc_palette0").style.backgroundColor = colorCodeConf['0'];
     document.getElementById("disc_palette1").style.backgroundColor = colorCodeConf['0'];
+    document.getElementById("disc_palette2").style.backgroundColor = colorCodeConf['W'];
     setDiscPalette("disc_palette0", "black");
     setDiscPalette("disc_palette1", "white");
+    setDiscPalette("disc_palette2", "green");
     // generate code
     generateCode();
   }
@@ -1131,7 +1155,12 @@ function initRecord() {
 
 
 function setDiscPalette(id, color) {
-  document.getElementById(id).style.color = color;
+  if (color === "green") {
+    document.getElementById(id).style.color = colorCodeConf["0"];
+  }
+  else {
+    document.getElementById(id).style.color = color;
+  }
   document.getElementById(id).textContent = "d";
 }
 
@@ -1144,6 +1173,7 @@ function unSetDiscPalette(id) {
 function putInitialDiscsOnUiBoard() {
   const initBlacks = boardConf[boardName].init_black;
   const initWhites = boardConf[boardName].init_white;
+  const initGreens = boardConf[boardName].init_green;
   let mask = 1 << 31;
   let scoreB = 0;
   let scoreW = 0;
@@ -1162,7 +1192,7 @@ function putInitialDiscsOnUiBoard() {
 
       // index
       let index = offset + (y * boardTableSize) + x;
-      putInitialDiscOnUiBoard(index, mask, initBlacks[part], initWhites[part]);
+      putInitialDiscOnUiBoard(index, mask, initBlacks[part], initWhites[part], initGreens[part]);
 
       if ((mask & initBlacks[part]) !== 0) {
         putScore(BLACK);
@@ -1176,14 +1206,18 @@ function putInitialDiscsOnUiBoard() {
 }
 
 
-function putInitialDiscOnUiBoard(index, mask, initBlack, initWhite) {
+function putInitialDiscOnUiBoard(index, mask, initBlack, initWhite, initGreen) {
   let andBlack = mask & initBlack;
   let andWhite = mask & initWhite;
+  let andGreen = mask & initGreen;
   if (andBlack !== 0) {
     putDiscOnUiBoard(BLACK, index);
   }
   else if (andWhite !== 0) {
     putDiscOnUiBoard(WHITE, index);
+  }
+  else if (andGreen !== 0) {
+    putDiscOnUiBoard(GREEN, index);
   }
 }
 
@@ -1468,7 +1502,13 @@ function getColorString(color) {
   if (color === BLACK) {
     return "Black";
   }
-  return "White";
+  else if (color === WHITE) {
+    return "White";
+  }
+  else if (color === GREEN) {
+    return "Green";
+  }
+  return "";
 }
 
 
