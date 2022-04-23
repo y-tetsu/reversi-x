@@ -1,7 +1,13 @@
 # <img src="images/reversi-x_logo_320x80.png">
-**Reversi-X** is a reversi browser game. You can play reversi(othello) on various shapes of boards. There is also a mode where you can make your own board. The game is available on the following GitHub Pages, so please feel free to play!
+**Reversi-X** is a browser game of reversi(othello) played on various boards.  There is also a mode where you can make your own board. The game is available on the following GitHub Pages, so please feel free to play!
 
 https://y-tetsu.github.io/reversi-x/
+
+<img src="images/play_demo.gif" with="200" height="200">
+
+
+## Sample boards
+<img src="images/sample_boards.png">
 
 ## Quester Mode
 Select the continent map and stone board and press the start button to start the game.
