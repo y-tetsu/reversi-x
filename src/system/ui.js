@@ -272,14 +272,35 @@ function onUiBoardClicked(event) {
 function onUiPioneersBoardClicked(event) {
   if (getGameState() === GAME_PLAY) return;
   if (getGameState() === GAME_STOP) return;
-  const index            = Number(this.getAttribute("id").replace("pioneers_board", ""));
+  const selectPaintType = document.getElementsByName('paint_type');
+  const dot_paint       = selectPaintType[0].checked;
+  const fill_paint      = selectPaintType[1].checked;
+  const index           = Number(this.getAttribute("id").replace("pioneers_board", ""));
+  if (dot_paint === true) {
+    paintDot(index);
+  }
+  else if (fill_paint === true) {
+    const color = document.getElementById("pioneers_board" + index).style.backgroundColor;
+    getFillIndexs(index, color, {}).forEach(function(index) {
+      paintDot(index);
+    });
+  }
+
+  // init ui
+  setGameState(GAME_INIT);
+  updateUi();
+}
+
+
+function paintDot(index) {
+  let thisPioneersBoard  = document.getElementById("pioneers_board" + index);
   const paint_disc       = document.getElementById("selected_paint0").textContent;
   const paint_disc_color = document.getElementById("selected_paint0").style.color;
   // put paint to board
   //  - if hole palette selected
   if (selectedPaint === 'W' || selectedPaint === 'X' || selectedPaint === 'Y') {
-    this.textContent = "h";
-    this.style.color = colorCodeConf['o'];
+    thisPioneersBoard.textContent = "h";
+    thisPioneersBoard.style.color = colorCodeConf['o'];
     // add hole
     paintHole(index);
     // mod color
@@ -289,21 +310,21 @@ function onUiPioneersBoardClicked(event) {
   else if (selectedPaint === 'black' || selectedPaint === 'white' || selectedPaint === 'green') {
     let color = getColorCode(index);
     if (color !== 'W' && color !== 'X' && color !== 'Y') {
-      if (this.textContent === "") {
-        this.textContent = paint_disc;
-        this.style.color = paint_disc_color;
+      if (thisPioneersBoard.textContent === "") {
+        thisPioneersBoard.textContent = paint_disc;
+        thisPioneersBoard.style.color = paint_disc_color;
         // add disc
         paintDisc(index, selectedPaint);
       }
       else {
-        if (this.style.color !== paint_disc_color) {
-          this.textContent = paint_disc;
-          this.style.color = paint_disc_color;
+        if (thisPioneersBoard.style.color !== paint_disc_color) {
+          thisPioneersBoard.textContent = paint_disc;
+          thisPioneersBoard.style.color = paint_disc_color;
           // add disc
           paintDisc(index, selectedPaint);
         }
         else {
-          this.textContent = "";
+          thisPioneersBoard.textContent = "";
           // remove disc
           removeDisc(index);
         }
@@ -313,16 +334,40 @@ function onUiPioneersBoardClicked(event) {
   //  - if board palette selected
   else {
     // reomove hole
-    if (this.textContent === "h") {
-      this.textContent = "";
+    if (thisPioneersBoard.textContent === "h") {
+      thisPioneersBoard.textContent = "";
     }
     removeHole(index);
     // mod color
     paintColorCode(index, selectedPaint);
   }
-  // init ui
-  setGameState(GAME_INIT);
-  updateUi();
+}
+
+
+function getFillIndexs(index, color, memo) {
+  if (index in memo) return [];
+  const myColor = document.getElementById("pioneers_board" + index).style.backgroundColor;
+  if (myColor !== color) return [];
+  let result = [];
+  result.push(index);
+  memo[index] = true;
+  const nextTop    = index - boardSize;
+  const nextLeft   = index - 1;
+  const nextRight  = index + 1;
+  const nextBottom = index + boardSize;
+  if (nextTop >= 0) {
+    result = result.concat(getFillIndexs(nextTop, color, memo));
+  }
+  if (nextLeft >= 0 && ((nextLeft % boardSize) !== (boardSize - 1))) {
+    result = result.concat(getFillIndexs(nextLeft, color, memo));
+  }
+  if (nextRight <= (boardSize * boardSize - 1) && ((nextRight % boardSize) !== 0)) {
+    result = result.concat(getFillIndexs(nextRight, color, memo));
+  }
+  if (nextBottom <= (boardSize * boardSize - 1)) {
+    result = result.concat(getFillIndexs(nextBottom, color, memo));
+  }
+  return result;
 }
 
 
@@ -353,6 +398,12 @@ function resetPioneersBoard(event) {
   document.getElementById("selected_paint0").style.backgroundColor = colorCodeConf['0'];
   document.getElementById("selected_paint0").textContent = "";
   selectedPaint = '0';
+
+  //  - paint type selection
+  const selectPaintType = document.getElementsByName('paint_type');
+  selectPaintType[0].checked = true;
+  selectPaintType[1].checked = false;
+
   //  - score type selection
   const selectScoreType = document.getElementsByName('score_type');
   selectScoreType[0].checked = true;
