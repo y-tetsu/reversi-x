@@ -3,11 +3,12 @@
 
 https://y-tetsu.github.io/reversi-x/
 
-<img src="images/play_demo.gif" with="200" height="200">
-
-
-## Sample boards
-<img src="images/sample_boards.png">
+<a href="https://y-tetsu.github.io/reversi-x/" target="_blank">
+<img src="images/play_demo.gif" width="48%">
+</a>
+<a href="https://y-tetsu.github.io/reversi-x/" target="_blank">
+<img src="images/sample_boards.png" width="48%">
+</a>
 
 ## Quester Mode
 Select the continent map and stone board and press the start button to start the game.
