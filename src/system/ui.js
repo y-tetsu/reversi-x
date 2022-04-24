@@ -335,7 +335,7 @@ function createResetPioneersBoard() {
 
 function resetPioneersBoard(event) {
   // init board_conf
-  boardConf[boardName].negative   = 0x00000000;
+  boardConf[boardName].score      = 0x00000000;
   boardConf[boardName].first      = 0x00000000;
   boardConf[boardName].size       = 0x00000000;
   boardConf[boardName].hole       = [0x00000000, 0x00000000];
@@ -370,6 +370,9 @@ function resetPioneersBoard(event) {
 
   // init record
   initRecord();
+
+  // init code
+  initCode();
 
   // update ui
   updateUi();
@@ -716,7 +719,7 @@ function createSelectBoardSize() {
 function onBoardSizeSelectionChanged(event) {
   const selectBoardSize = document.getElementsByName('board_size');
   let size = "8";
-  boardConf[boardName].negative   = 0x00000000;
+  boardConf[boardName].score      = 0x00000000;
   boardConf[boardName].first      = 0x00000000;
   boardConf[boardName].size       = 0x00000000;
   boardConf[boardName].hole       = [0x00000000, 0x00000000];
@@ -731,7 +734,7 @@ function onBoardSizeSelectionChanged(event) {
     }
   }
   if (size === "10") {
-    boardConf[boardName].negative   = 0x00000000;
+    boardConf[boardName].score      = 0x00000000;
     boardConf[boardName].first      = 0x00000000;
     boardConf[boardName].size       = 0x00000001;
     boardConf[boardName].hole       = [0x00000000, 0x00000000, 0x00000000, 0x00000000];
@@ -786,6 +789,7 @@ export function initUi() {
   initIntelligenceProfiles();
   initGame(boardConf[boardName].score, turn);
   initUiBoard();
+  initCode();
 }
 
 
@@ -1154,6 +1158,46 @@ function initRecord() {
 }
 
 
+function initCode() {
+  const score      = toHex(boardConf[boardName].score);
+  const first      = toHex(boardConf[boardName].first);
+  const size       = toHex(boardConf[boardName].size);
+  const hole       = arrayToHex(boardConf[boardName].hole);
+  const color_code = '"' + boardConf[boardName].color_code + '"';
+  const initBlacks = arrayToHex(boardConf[boardName].init_black);
+  const initWhites = arrayToHex(boardConf[boardName].init_white);
+  const initGreens = arrayToHex(boardConf[boardName].init_green);
+
+  let code = "";
+  code += '"score"     : ' + score      + "," + "\n";
+  code += '"first"     : ' + first      + "," + "\n";
+  code += '"size"      : ' + size       + "," + "\n";
+  code += '"hole"      : ' + hole       + "," + "\n";
+  code += '"color_code": ' + color_code + "," + "\n";
+  code += '"init_black": ' + initBlacks + "," + "\n";
+  code += '"init_white": ' + initWhites + "," + "\n";
+  code += '"init_green": ' + initGreens + ",";
+  document.getElementsByName("code")[0].value = code;
+}
+
+
+function arrayToHex(ary) {
+  let result = "";
+  for (let i=0; i<ary.length; i++) {
+    result += toHex(ary[i]);
+    if (i !== (ary.length - 1)) {
+      result += ", ";
+    }
+  }
+  return "[" + result + "]";
+}
+
+
+function toHex(value) {
+  return '0x' + (('00000000' + value.toString(16).toUpperCase()).substr(-8));
+}
+
+
 function setDiscPalette(id, color) {
   if (color === "green") {
     document.getElementById(id).style.color = colorCodeConf["0"];
@@ -1291,6 +1335,7 @@ export function updateUi() {
         if (playRecordMode !== true) {
           initRecord();
         }
+        initCode();
         break;
       case GAME_PLAY:
         startStop.textContent = STOP_BUTTON_TEXT_CONTENT;
