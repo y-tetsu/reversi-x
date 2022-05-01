@@ -1,6 +1,6 @@
 import { boardConf } from '../conf/board_conf.js'
 import { getBoardName, getPlayRecordMode } from './ui.js';
-import { getOpponentColor } from './game.js';
+import { getOpponentColors } from './game.js';
 
 
 export const EMPTY = 0;
@@ -8,6 +8,7 @@ export const BLACK = 1;
 export const WHITE = -1;
 export const HOLE  = 2;
 export const GREEN = 3;
+export const ASH   = 4;
 
 export const GREEN_ONLY = "green only";
 
@@ -62,7 +63,7 @@ export function getBoardIndex(x, y) {
 }
 
 
-export function initBoard(board, size, hole, initBlack, initWhite, initGreen) {
+export function initBoard(board, size, hole, initBlack, initWhite, initGreen, initAsh) {
   boardSize = size;
   boardTableSize = getBoardTableSize(boardSize);
   partSize = getPartSize(boardSize);
@@ -86,7 +87,7 @@ export function initBoard(board, size, hole, initBlack, initWhite, initGreen) {
     boardConf[CHAOS_BOARD_NAME].init_black = initBlack;
     boardConf[CHAOS_BOARD_NAME].init_white = initWhite;
   }
-  setupInitDisc(board, initBlack, initWhite, initGreen);
+  setupInitDisc(board, initBlack, initWhite, initGreen, initAsh);
 
   // set hedder part
   for (let i = 0; i < boardTableSize; i++) {
@@ -166,7 +167,7 @@ export function initBoard(board, size, hole, initBlack, initWhite, initGreen) {
 }
 
 
-function setupInitDisc(board, initBlack, initWhite, initGreen) {
+function setupInitDisc(board, initBlack, initWhite, initGreen, initAsh) {
   let mask = 1 << 31
   let prePart = 0;
   for (let y = 0; y < boardSize; y++) {
@@ -177,25 +178,29 @@ function setupInitDisc(board, initBlack, initWhite, initGreen) {
         prePart = part;
       }
       const index = getBoardIndex(x, y);
-      putInitDisc(board, index, mask, initBlack[part], initWhite[part], initGreen[part]);
+      putInitDisc(board, index, mask, initBlack[part], initWhite[part], initGreen[part], initAsh[part]);
       mask >>>= 1;
     }
   }
 }
 
 
-function putInitDisc(board, index, mask, black, white, green) {
+function putInitDisc(board, index, mask, black, white, green, ash) {
   let andBlack = mask & black;
   let andWhite = mask & white;
   let andGreen = mask & green;
-  if ((andBlack !== 0) && (andWhite === 0) && (andGreen === 0)) {
+  let andAsh   = mask & ash;
+  if ((andBlack !== 0) && (andWhite === 0) && (andGreen === 0) && (andAsh === 0)) {
     board[index] = BLACK;
   }
-  else if ((andBlack === 0) && (andWhite !== 0) && (andGreen === 0)) {
+  else if ((andBlack === 0) && (andWhite !== 0) && (andGreen === 0) && (andAsh === 0)) {
     board[index] = WHITE;
   }
-  else if ((andBlack === 0) && (andWhite === 0) && (andGreen !== 0)) {
+  else if ((andBlack === 0) && (andWhite === 0) && (andGreen !== 0) && (andAsh === 0)) {
     board[index] = GREEN;
+  }
+  else if ((andBlack === 0) && (andWhite === 0) && (andGreen === 0) && (andAsh !== 0)) {
+    board[index] = ASH;
   }
 }
 
@@ -215,13 +220,13 @@ export function getFlippablesAtIndex(color, board, index) {
   let flippables = [];
   let greenOnly = false;
   if (board[index] !== EMPTY) return flippables;
-  const opponentColor = getOpponentColor(color);
+  const opponentColors = getOpponentColors(color);
   for (let dir = 0; dir < ALL_DIRECTIONS_NUM; dir++) {
     const d = directions[dir];
     let tmp = [];
     let g = [];
     let next = index + d;
-    while (board[next] === opponentColor || board[next] === GREEN) {
+    while (opponentColors.includes(board[next]) === true) {
       tmp.push(next);
       if (board[next] === GREEN) {
         g.push(next);

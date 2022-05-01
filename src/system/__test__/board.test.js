@@ -1,4 +1,4 @@
-import { BLACK, WHITE, GREEN, HOLE, EMPTY, GREEN_ONLY, getFlippablesAtIndex, flipDiscs, putDisc, getLegalMoves } from '../board.js';
+import { BLACK, WHITE, GREEN, ASH, HOLE, EMPTY, GREEN_ONLY, getFlippablesAtIndex, flipDiscs, putDisc, getLegalMoves } from '../board.js';
 
 
 const iniBoard = [
@@ -50,6 +50,19 @@ const testBoardGreen1 = [
   HOLE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
   HOLE, WHITE, GREEN, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
   HOLE, GREEN, WHITE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
+  HOLE, HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,
+];
+
+const testBoardAsh1 = [
+  HOLE, HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,
+  HOLE, ASH,   BLACK, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
+  HOLE, BLACK, ASH,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
+  HOLE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
+  HOLE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
+  HOLE, ASH,   GREEN, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
+  HOLE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
+  HOLE, WHITE, ASH,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
+  HOLE, ASH,   WHITE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, HOLE,
   HOLE, HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,  HOLE,
 ];
 
@@ -249,6 +262,26 @@ describe('getFlippablesAtIndex', () => {
 
   it('should flippable for black at test on 48', () => {
     expect(getFlippablesAtIndex(BLACK, testBoardGreen1, 48)).toEqual([GREEN_ONLY]);
+  });
+
+  it('should flippable for ash at test on 31', () => {
+    expect(getFlippablesAtIndex(ASH, testBoardAsh1, 31)).toEqual([21]);
+  });
+
+  it('should flippable for ash at test on 53', () => {
+    expect(getFlippablesAtIndex(ASH, testBoardAsh1, 53)).toEqual([GREEN_ONLY]);
+  });
+
+  it('should flippable for ash at test on 61', () => {
+    expect(getFlippablesAtIndex(ASH, testBoardAsh1, 61)).toEqual([71]);
+  });
+
+  it('should flippable for black at test on 32', () => {
+    expect(getFlippablesAtIndex(BLACK, testBoardAsh1, 32)).toEqual([22]);
+  });
+
+  it('should flippable for ash at test on 62', () => {
+    expect(getFlippablesAtIndex(WHITE, testBoardAsh1, 62)).toEqual([72]);
   });
 });
 

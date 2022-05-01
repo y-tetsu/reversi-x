@@ -52,6 +52,10 @@ div#board .green::before {
     content: "●";
 }
 
+div#board .ash::before {
+    content: "●";
+}
+
 div#board .empty::before {
     content: "　";
 }
@@ -172,6 +176,10 @@ div#board .black {
 
 div#board .green {
     color: #458527;
+}
+
+div#board .ash {
+    color: #909090;
 }
 
 div#board .hole {
