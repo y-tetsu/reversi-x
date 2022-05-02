@@ -6,8 +6,8 @@ export const WAIT_HUMAN_MOVE = -1;
 export const STOP_PLAY_RECORD = -2;
 export const UNKNOWN_MOVE = -9;
 
-export const HUMAN = 'human';
-export const X = 'x';
+export const HUMAN  = 'human';
+export const X      = 'x';
 export const RANDOM = 'random';
 export const RECORD = 'record';
 

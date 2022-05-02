@@ -130,6 +130,17 @@ export const continentConf = {
             'Another',
         ],
     },
+    'Ash': {
+        //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
+        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW5kkkkkkqfWWWWWWWkklllqk5WWWWWW5kklllkkWWWWWcfckklklkk5WWWWcfckkkklkk5WWWWc7cW55W5555WWW",
+        'note'  : "Ash was begining from here.",
+        boards: [
+            'A',
+            'Battleroyal',
+            'Stingray',
+            'XxX',
+        ],
+    },
     'Pioneer': {
         //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
         'colors': "WWWWWWWWWWWWsffWWW555W5555sffWWWW5kkkkkksfWWWWWWWkklllsk5WWWWWW5kklllkkWWWWWc7ckkllkkk5WWWWcfckkkkkkk5WWWWcfcW55W5555WWW",
