@@ -97,18 +97,6 @@ export const continentConf = {
             'Universe',
         ],
     },
-    'Green': {
-        //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
-        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW533kllkqfWWWWWWW33kllq35WWWWWW5kkkklkkWWWWWccckkkklkk5WWWW7ffkkkllkk5WWWWcccW55W5555WWW",
-        'note'  : "Green was begining from here.",
-        boards: [
-            'G',
-            'Greenmatter-8',
-            'Greenmatter-6',
-            'Greenmatter-4',
-            'Greenhole',
-        ],
-    },
     'Minus': {
         //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
         'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW5kkkk3kqfWWWWWWWkllkkq35WWWWWW5kklllkkWWWWWc7ckklklk35WWWWcfckkkklk35WWWWcfcW55W5555WWW",
@@ -118,6 +106,16 @@ export const continentConf = {
             'Minus-8',
             'Minus-6',
             'Minus-4',
+        ],
+    },
+    'Ash': {
+        //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
+        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW5kkkkkkqfWWWWWWWkklllqk5WWWWWW5kklllkkWWWWWcfckklklkk5WWWWcfckkkklkk5WWWWc7cW55W5555WWW",
+        'note'  : "Ash was begining from here.",
+        boards: [
+            'A',
+            'Battleroyal',
+            'Stingray',
         ],
     },
     'Large': {
@@ -130,20 +128,22 @@ export const continentConf = {
             'Another',
         ],
     },
-    'Ash': {
+    'Green': {
         //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
-        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW5kkkkkkqfWWWWWWWkklllqk5WWWWWW5kklllkkWWWWWcfckklklkk5WWWWcfckkkklkk5WWWWc7cW55W5555WWW",
-        'note'  : "Ash was begining from here.",
+        'colors': "WWWWWWWWWWWWqffWWW555W5555qffWWWW533kllkqfWWWWWWW33kllq35WWWWWW5kkkklkkWWWWWccckkkklkk5WWWW7ffkkkllkk5WWWWcccW55W5555WWW",
+        'note'  : "Green was begining from here.",
         boards: [
-            'A',
-            'Battleroyal',
-            'Stingray',
+            'G',
+            'Greenmatter-8',
+            'Greenmatter-6',
+            'Greenmatter-4',
+            'Greenhole',
             'XxX',
         ],
     },
     'Pioneer': {
         //        "0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde0123456789abcde"
-        'colors': "WWWWWWWWWWWWsffWWW555W5555sffWWWW5kkkkkksfWWWWWWWkklllsk5WWWWWW5kklllkkWWWWWc7ckkllkkk5WWWWcfckkkkkkk5WWWWcfcW55W5555WWW",
+        'colors': "WWWWWWWWWWWWsffWWW555W5555sffWWWW5kkkkkksfWWWWWWWkklllsk5WWWWWW5kklllkkWWWWWc7ckklkkkk5WWWWcfckkkkkkk5WWWWcfcW55W5555WWW",
         'note'  : "Pioneer's Footprints.",
         boards: [
             'Pioneer',
