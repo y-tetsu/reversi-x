@@ -8,6 +8,10 @@ p {
     font-size: 2rem;
 }
 
+span {
+    font-size: 2rem;
+}
+
 button {
     width: 8em;
     height: 2.5em;
@@ -478,4 +482,12 @@ div#questers_memo_tbl .content {
     background: #EEE0C0;
     text-align: center;
     width: 550px;
+}
+
+div#continent_note {
+    font-size: 1.0rem;
+}
+
+div#board_note {
+    font-size: 1.0rem;
 }
