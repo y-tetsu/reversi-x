@@ -875,7 +875,7 @@ function initContinentMap() {
     }
   }
   // (Note)
-  document.getElementById("continent_note").innerHTML = continentConf[continentName].note;
+  document.getElementById("continent_note").textContent = continentConf[continentName].note;
 }
 
 
@@ -920,7 +920,7 @@ function initStoneBoard() {
   document.getElementById("stone_board" + ((boardSize + 1) * boardTableSize + 1)).style.backgroundColor = colorCodeConf['W'];
 
   // (note)
-  document.getElementById("board_note").innerHTML = boardConf[boardName].note;
+  document.getElementById("board_note").textContent = boardConf[boardName].note;
 }
 
 

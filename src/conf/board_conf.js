@@ -29,7 +29,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3e3F6e6F3g7H8F7",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3e3F6c3B2d6C7a1g7b8",
-        "note"                     : "This is the first stone board we discoverd.<br><br><br>"
+        "note"                     : "This is the first stone board we discoverd."
     },
     "x": {
         "no"                       : 2,
@@ -61,7 +61,7 @@ export const boardConf = {
         "black_shortest_record"    : "C4c5F6f3F4e3C6f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5D6e3F4f5F3f2c7c3",
-        "note"                     : "This is the second stone board we discoverd.<br><br><br>"
+        "note"                     : "This is the second stone board we discoverd."
     },
     "Cross": {
         "no"                       : 3,
@@ -93,7 +93,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Plus": {
         "no"                       : 4,
@@ -125,7 +125,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5E6f5G4e3D6c4E2f4B4",
         "white_shortest_move_count": 11,
         "white_shortest_record"    : "D3c5D6e3F4d7F5g5E6e7d2",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Drone-8": {
         "no"                       : 5,
@@ -157,7 +157,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2C4b5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Drone-6": {
         "no"                       : 6,
@@ -189,7 +189,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3e3F6c6D6c5F3e6B6",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5D6c3C4e3C6c7F3g2",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Kazaguruma-8": {
         "no"                       : 7,
@@ -221,7 +221,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Kazaguruma-6": {
         "no"                       : 8,
@@ -253,7 +253,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3e3F6c6D6c5F3e6B6",
         "white_shortest_move_count": 8,
         "white_shortest_record"    : "D3c3E6e3C4e7F7c5",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Manji-8": {
         "no"                       : 9,
@@ -285,7 +285,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5D6e3B4d2D1c4F4",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5D6e7F5g5E6c2F4e3",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Manji-6": {
         "no"                       : 10,
@@ -317,7 +317,7 @@ export const boardConf = {
         "black_shortest_record"    : "C4c5B6d3E2f4G4e3E6",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "C4e3F5c5F4g5B6b4d6",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "S": {
         "no"                       : 11,
@@ -349,7 +349,7 @@ export const boardConf = {
         "black_shortest_record"    : "F5f4C3g6G4H7",
         "white_shortest_move_count": 8,
         "white_shortest_record"    : "F5f4C3d6D7b2d8g6",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Random": {
         "no"                       : 12,
@@ -381,7 +381,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "The board changes shape with each play.<br><br><br>"
+        "note"                     : "The board changes shape with each play."
     },
     "Square-8": {
         "no"                       : 13,
@@ -413,7 +413,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "This stone board that many questers are trying to solve.<br><br><br>"
+        "note"                     : "This stone board that many questers are trying to solve."
     },
     "Square-6": {
         "no"                       : 14,
@@ -445,7 +445,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2C4b5D6d7",
-        "note"                     : "This board is known as a white must-win.<br><br><br>"
+        "note"                     : "This board is known as a white must-win."
     },
     "Square-4": {
         "no"                       : 15,
@@ -477,7 +477,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3e3F3c3C5F6",
         "white_shortest_move_count": 7,
         "white_shortest_record"    : "D3c3E6e3C4c5f5",
-        "note"                     : "This board is known as a white must-win.<br><br><br>"
+        "note"                     : "This board is known as a white must-win."
     },
     "Rectangle": {
         "no"                       : 16,
@@ -509,7 +509,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3e3F6c6D6c5F3e6B6",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3e3F4g5F5c5C4c3G4h4",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Octagon": {
         "no"                       : 17,
@@ -541,7 +541,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Diamond": {
         "no"                       : 18,
@@ -573,7 +573,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "T": {
         "no"                       : 51,
@@ -605,7 +605,7 @@ export const boardConf = {
         "black_shortest_record"    : "B1d8D4e3G1f6H3",
         "white_shortest_move_count": 8,
         "white_shortest_record"    : "F1e5D5c7C4a2H4c1",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Torus": {
         "no"                       : 52,
@@ -637,7 +637,7 @@ export const boardConf = {
         "black_shortest_record"    : "B3c3D6f6D3h4",
         "white_shortest_move_count": 6,
         "white_shortest_record"    : "B3f6G6h6D6h4",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Two": {
         "no"                       : 53,
@@ -669,7 +669,7 @@ export const boardConf = {
         "black_shortest_record"    : "B3c3D2f6C6g3",
         "white_shortest_move_count": 6,
         "white_shortest_record"    : "B3f6G6h7C6g3",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Equal": {
         "no"                       : 54,
@@ -701,7 +701,7 @@ export const boardConf = {
         "black_shortest_record"    : "F1h6A6e8D8a3F8d2H3",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "B1f8E6b8H3d6D3h6E2",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Xhole": {
         "no"                       : 55,
@@ -733,7 +733,7 @@ export const boardConf = {
         "black_shortest_record"    : "D1e1B3a6H6a4B6a7F8a2F1",
         "white_shortest_move_count": 12,
         "white_shortest_record"    : "D1h4H3e1F2g3F1c8H5c2B1a6",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "C": {
         "no"                       : 101,
@@ -765,7 +765,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3e3F6c6D6c5F3e6B6",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f3E3c3D6e7D7d8",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Rainbow": {
         "no"                       : 102,
@@ -797,7 +797,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Pylamid": {
         "no"                       : 103,
@@ -829,7 +829,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3e3F6c6D6c5F3e6B6",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f3E3c3D6e7D7d8",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Heart": {
         "no"                       : 104,
@@ -861,7 +861,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Waffle": {
         "no"                       : 105,
@@ -893,7 +893,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Bonsai": {
         "no"                       : 106,
@@ -925,7 +925,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5E6f7B5G8",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "D3c5F6d2C2f4G3g7b1",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Satellite": {
         "no"                       : 107,
@@ -957,7 +957,7 @@ export const boardConf = {
         "black_shortest_record"    : "C4c5B6d3E2f4G4e3E6",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "C4e3F4g5E6e7F5b3D6c5",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Peach": {
         "no"                       : 108,
@@ -989,7 +989,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Pumpkin": {
         "no"                       : 109,
@@ -1021,7 +1021,7 @@ export const boardConf = {
         "black_shortest_record"    : "C4e3F6c6C5B7E2",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "D3e3F4g5F5c5E2e1c4",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Scarab": {
         "no"                       : 110,
@@ -1053,7 +1053,7 @@ export const boardConf = {
         "black_shortest_record"    : "C4e3F2c6E6",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Globe": {
         "no"                       : 111,
@@ -1085,7 +1085,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2B5a5D6d7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "E": {
         "no"                       : 201,
@@ -1117,7 +1117,7 @@ export const boardConf = {
         "black_shortest_record"    : "D1c1D3d8B1d6",
         "white_shortest_move_count": 6,
         "white_shortest_record"    : "D1d8C8b8D4d6",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Ring": {
         "no"                       : 202,
@@ -1149,7 +1149,7 @@ export const boardConf = {
         "black_shortest_record"    : "C3c6F6b4C7b6A5g6H6",
         "white_shortest_move_count": 12,
         "white_shortest_record"    : "C3c6E7f3F6c2G4g6F7f8G3h3",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Inside": {
         "no"                       : 203,
@@ -1181,7 +1181,7 @@ export const boardConf = {
         "black_shortest_record"    : "C2d7G6e7E8d2D1",
         "white_shortest_move_count": 8,
         "white_shortest_record"    : "D2c7D7g3E7d8E2e1",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Outside": {
         "no"                       : 204,
@@ -1213,7 +1213,7 @@ export const boardConf = {
         "black_shortest_record"    : "E3f6D6c5C6f4D5c3F3E4",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3f6C6e6F5e5C4d4F3c3",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Skull": {
         "no"                       : 205,
@@ -1245,7 +1245,7 @@ export const boardConf = {
         "black_shortest_record"    : "C6f6G6d6F5g5E5c5E6b6H4",
         "white_shortest_move_count": 15,
         "white_shortest_record"    : "C6b6E6d6B5e5F6c5E4a4e3F5g5E2e1",
-        "note"                     : "Skull made of crystal.<br><br><br>"
+        "note"                     : "Skull made of crystal."
     },
     "Hourglass": {
         "no"                       : 206,
@@ -1277,7 +1277,7 @@ export const boardConf = {
         "black_shortest_record"    : "G2g1E8c6H1G8G6E2F1",
         "white_shortest_move_count": 12,
         "white_shortest_record"    : "F2c2D2c8B1d1E2g1F6b2b8b6",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Treasure": {
         "no"                       : 207,
@@ -1309,7 +1309,7 @@ export const boardConf = {
         "black_shortest_record"    : "B3g4H4d3E6c3E3",
         "white_shortest_move_count": 8,
         "white_shortest_record"    : "D3g4F3e2E6c6E3e7",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Rosetta": {
         "no"                       : 292,
@@ -1341,7 +1341,7 @@ export const boardConf = {
         "black_shortest_record"    : "C2g6H7g7B7b6A6",
         "white_shortest_move_count": 8,
         "white_shortest_record"    : "G5g7B4f2B3a3G4h4",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Chaos": {
         "no"                       : 293,
@@ -1373,7 +1373,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "A board whose shape and color, disc placement changes with each play.<br><br><br>"
+        "note"                     : "A board whose shape and color, disc placement changes with each play."
     },
     "B": {
         "no"                       : 998,
@@ -1405,7 +1405,7 @@ export const boardConf = {
         "black_shortest_record"    : "B6d7D2c7D8c2C1",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "C7b3D2d7C2d1A2c8a4",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Blackhole": {
         "no"                       : 999,
@@ -1437,7 +1437,7 @@ export const boardConf = {
         "black_shortest_record"    : "C6c5E6e3C4",
         "white_shortest_move_count": 8,
         "white_shortest_record"    : "C6c3C4c5E6f6d6f3",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "W": {
         "no"                       : 1000,
@@ -1469,7 +1469,7 @@ export const boardConf = {
         "black_shortest_record"    : "f6F7e7D7c6B5c5F5g6H6",
         "white_shortest_move_count": 6,
         "white_shortest_record"    : "e7F5g4C7c5b8",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Whitehole": {
         "no"                       : 1001,
@@ -1501,7 +1501,7 @@ export const boardConf = {
         "black_shortest_record"    : "e3F3d6D3f4F5C5",
         "white_shortest_move_count": 6,
         "white_shortest_record"    : "e3D3c3F3f5c6",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Reunion": {
         "no"                       : 1002,
@@ -1533,7 +1533,7 @@ export const boardConf = {
         "black_shortest_record"    : "e3F5e6D7c5B5d6F2c4D3",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "e3F5e6F3g4D3e2F4c4",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Universe": {
         "no"                       : 1003,
@@ -1565,7 +1565,7 @@ export const boardConf = {
         "black_shortest_record"    : "e3F5e6F3c5B5f4D3f6F7",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "e3F3d6E6g3C7e7F4b8",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "M": {
         "no"                       : 2000,
@@ -1597,7 +1597,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Minus-8": {
         "no"                       : 2001,
@@ -1629,7 +1629,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "The player with fewer discs wins.<br><br><br>"
+        "note"                     : "The player with fewer discs wins."
     },
     "Minus-6": {
         "no"                       : 2002,
@@ -1661,7 +1661,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "The player with fewer discs wins.<br><br><br>"
+        "note"                     : "The player with fewer discs wins."
     },
     "Minus-4": {
         "no"                       : 2003,
@@ -1693,7 +1693,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "The player with fewer discs wins.<br><br><br>"
+        "note"                     : "The player with fewer discs wins."
     },
     "A": {
         "no"                       : 3000,
@@ -1725,7 +1725,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Battleroyal": {
         "no"                       : 3001,
@@ -1789,7 +1789,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "L": {
         "no"                       : 4000,
@@ -1821,7 +1821,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Square-10": {
         "no"                       : 4001,
@@ -1853,7 +1853,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "When will this board be solved?<br><br><br>"
+        "note"                     : "When will this board be solved?"
     },
     "Another": {
         "no"                       : 4002,
@@ -1885,7 +1885,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "G": {
         "no"                       : 5000,
@@ -1917,7 +1917,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Greenmatter-8": {
         "no"                       : 5001,
@@ -2045,7 +2045,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "XxX": {
         "no"                       : 5005,
@@ -2077,7 +2077,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Pioneer": {
         "no"                       : 10000,
@@ -2109,7 +2109,7 @@ export const boardConf = {
         "black_shortest_record"    : "?",
         "white_shortest_move_count": "?",
         "white_shortest_record"    : "?",
-        "note"                     : "<br><br><br>"
+        "note"                     : ""
     },
     "Chair": {
         "no"                       : 10001,
@@ -2141,7 +2141,7 @@ export const boardConf = {
         "black_shortest_record"    : "F6c7F5g6F7H6B8",
         "white_shortest_move_count": 7,
         "white_shortest_record"    : "F6c7C6c5B8g6c8",
-        "note"                     : "Chair painted by a young pioneer of 8 years old<br><br><br>"
+        "note"                     : "Chair painted by a young pioneer of 8 years old."
     },
     "Coffeecup": {
         "no"                       : 10002,
@@ -2173,7 +2173,7 @@ export const boardConf = {
         "black_shortest_record"    : "A4a5D6d3D4c3A6d5D2",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "A4a5C6a3d4E3b6A7c7",
-        "note"                     : "Coffee cup painted by a young pioneer of 8 years old<br><br><br>"
+        "note"                     : "Coffee cup painted by a young pioneer of 8 years old."
     },
     "House": {
         "no"                       : 10003,
@@ -2205,7 +2205,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5D6e3F4c3D2c4B4",
         "white_shortest_move_count": 9,
         "white_shortest_record"    : "D3e3F3e2F5g4e6F4c4",
-        "note"                     : "House painted by a young pioneer of 8 years old<br><br><br>"
+        "note"                     : "House painted by a young pioneer of 8 years old."
     },
     "Alien": {
         "no"                       : 10004,
@@ -2237,7 +2237,7 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5B6f3F5",
         "white_shortest_move_count": 8,
         "white_shortest_record"    : "C4e3F4g5F5b4C3c5",
-        "note"                     : "Alien painted by a young pioneer of 8 years old<br><br><br>"
+        "note"                     : "Alien painted by a young pioneer of 8 years old."
     },
     "Cyborg": {
         "no"                       : 10005,
@@ -2269,6 +2269,6 @@ export const boardConf = {
         "black_shortest_record"    : "D3c5F6f3F4e3B5f5F2",
         "white_shortest_move_count": 10,
         "white_shortest_record"    : "D3c5E6f5C6c2C4b5D6d7",
-        "note"                     : "Cyborg painted by a young pioneer of 8 years old<br><br><br>"
+        "note"                     : "Cyborg painted by a young pioneer of 8 years old."
     }
 }
