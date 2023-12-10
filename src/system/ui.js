@@ -427,6 +427,9 @@ function resetPioneersBoard(event) {
   // init code
   initCode();
 
+  // init line_board
+  initLineBoard();
+
   // update ui
   updateUi();
 }
@@ -860,6 +863,7 @@ export function initUi() {
   initGame(boardConf[boardName].score, turn);
   initUiBoard();
   initCode();
+  initLineBoard();
 }
 
 
@@ -1263,6 +1267,38 @@ function initCode() {
   document.getElementsByName("code")[0].value = code;
 }
 
+function initLineBoard() {
+  const first = boardConf[boardName].first;
+  const black = arrayToBin(boardConf[boardName].init_black);
+  const white = arrayToBin(boardConf[boardName].init_white);
+  const hole  = arrayToBin(boardConf[boardName].hole);
+
+  let line_board = "";
+
+  for (let i=0; i<black.length; i++) {
+    if (black[i] === "1") {
+      line_board += 'b';
+    }
+    else if (white[i] === "1") {
+      line_board += 'w';
+    }
+    else if (hole[i] === "1") {
+      line_board += ' ';
+    }
+    else {
+      line_board += '-';
+    }
+  }
+
+  if (first == 0) {
+    line_board += 'b';
+  }
+  else {
+    line_board += 'w';
+  }
+
+  document.getElementsByName("line_board")[0].value = '"' + line_board + '"';
+}
 
 function arrayToHex(ary) {
   let result = "";
@@ -1278,6 +1314,18 @@ function arrayToHex(ary) {
 
 function toHex(value) {
   return '0x' + (('00000000' + value.toString(16).toUpperCase()).substr(-8));
+}
+
+function arrayToBin(ary) {
+  let result = "";
+  for (let i=0; i<ary.length; i++) {
+    result += toBin(ary[i]);
+  }
+  return result;
+}
+
+function toBin(value) {
+  return (('00000000000000000000000000000000' + value.toString(2)).substr(-32));
 }
 
 
@@ -1427,6 +1475,7 @@ export function updateUi() {
           initRecord();
         }
         initCode();
+        initLineBoard();
         break;
       case GAME_PLAY:
         startStop.textContent = STOP_BUTTON_TEXT_CONTENT;
